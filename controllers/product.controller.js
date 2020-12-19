@@ -71,12 +71,12 @@ exports.updateById = (req, res) => {
             if(err) {
                 if(err.kind === "not_found") {
                     res.status(400).send({
-                        message: `Product with id ${req.params.userId} not found.`
+                        message: `Product with id ${req.params.productId} not found.`
                     });
                 } else {
                     res.status(400).send({
                         message:
-                        err.message || `An error occurred while updating product with id ${req.params.userId}.`
+                        err.message || `An error occurred while updating product with id ${req.params.productId}.`
                     });
                 }
             } else {
