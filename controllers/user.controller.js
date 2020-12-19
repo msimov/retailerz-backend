@@ -26,7 +26,7 @@ exports.create = (req, res) => {
 };
 
 exports.findById = (req, res) => {
-    User.findById(req.params.userId, (err, res) => {
+    User.findById(req.params.userId, (err, data) => {
         if(err) {
             if(err.kind === "not_found") {
                 res.status(400).send({

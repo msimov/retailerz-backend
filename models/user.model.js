@@ -7,7 +7,7 @@ const User = function(user) {
 };
 
 User.create = (newUser, result) => {
-    sql.query(`INSERT INTO users SET ${newUser}`, (err, res) => {
+    sql.query("INSERT INTO users SET ?", newUser, (err, res) => {
         if(err) {
             console.log("Error: ", err);
             result(err, null);
@@ -52,7 +52,8 @@ User.getAll = result => {
 
 User.updateById = (id, user, result) => {
     sql.query(
-        `UPDATE users SET firstName = ${user.firstName}, lastName = ${user.lastName}, email = ${user.email}`,
+        "UPDATE users SET firstName = ?, lastName = ?, email = ?",
+        [user.firstName, user.lastName, user.email],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
@@ -80,7 +81,7 @@ User.deleteById = (id, result) => {
             result({ kind: "not_found" }, null);
             return;
         }
-        onsole.log("Deleted user with id: ", id);
+        console.log("Deleted user with id: ", id);
         result(null, id);
     });
 }

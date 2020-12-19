@@ -3,9 +3,9 @@ module.exports = app => {
 
     app.post("/users", users.create);
 
-    app.get("/users", users.getAll);
-
     app.get("/users/:userId", users.findById);
+
+    app.get("/users", users.getAll);
 
     app.put("/users/:userId", users.updateById);
 
