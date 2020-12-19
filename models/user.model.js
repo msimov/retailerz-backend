@@ -9,8 +9,14 @@ const User = function(user) {
 
 User.create = (newUser, result) => {
     sql.query(
-        "INSERT INTO users (first_name, last_name, email, type) VALUES (?, ?, ?, ?)",
-        [newUser.firstName, newUser.lastName, newUser.email, newUser.type], 
+        `INSERT INTO users 
+        (
+            first_name, last_name, email, type
+        ) 
+        VALUES 
+        (
+            ${newUser.firstName}, ${newUser.lastName}, ${newUser.email}, ${newUser.type}
+        )`,
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
@@ -20,44 +26,51 @@ User.create = (newUser, result) => {
 
             console.log("Created user: ", { id: res.insertId, ...newUser });
             result(null, { id: res.insertId, ...newUser });
-    });
+        }
+    );
 };
 
 User.findById = (userId, result) => {
-    sql.query(`SELECT * FROM users WHERE id = ${userId}`, (err, res) => {
-        if(err) {
-            console.log("Error: ", err);
-            result(err, null);
-            return;
-        }
+    sql.query(
+        `SELECT * FROM users WHERE id = ${userId}`,
+        (err, res) => {
+            if(err) {
+                console.log("Error: ", err);
+                result(err, null);
+                return;
+            }
 
-        if(res.length) {
-            console.log("Found user: ", res[0]);
-            result(null, res[0]);
-            return;
-        }
+            if(res.length) {
+                console.log("Found user: ", res[0]);
+                result(null, res[0]);
+                return;
+            }
 
-        result({ kind: "not_found" }, null);
-    });
+            result({ kind: "not_found" }, null);
+        }
+    );
 };
 
 User.getAll = result => {
-    sql.query("SELECT * FROM users", (err, res) => {
-        if(err) {
-            console.log("Error: ", err);
-            result(err, null);
-            return;
+    sql.query(
+        "SELECT * FROM users",
+        (err, res) => {
+            if(err) {
+                console.log("Error: ", err);
+                result(err, null);
+                return;
+            }
+            
+            console.log("Users: ", res);
+            result(null, res);
         }
-        
-        console.log("Users: ", res);
-        result(null, res);
-    });
+    );
 };
 
 User.updateById = (id, user, result) => {
     sql.query(
-        "UPDATE users SET first_name = ?, last_name = ?, email = ?",
-        [user.firstName, user.lastName, user.email],
+        `UPDATE users SET
+            first_name = ${user.firstName}, last_name = ${user.lastName}, email = ${user.email}`,
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
@@ -71,23 +84,27 @@ User.updateById = (id, user, result) => {
 
             console.log("Updated user: ", { id: id, ...user });
             result(null, { id: id, ...user });
-        });
+        }
+    );
 };
 
 User.deleteById = (id, result) => {
-    sql.query(`DELETE FROM users WHERE id = ${id}`, (err, res) => {
-        if(err) {
-            console.log("Error: ", err);
-            result(err, null);
-            return;
+    sql.query(
+        `DELETE FROM users WHERE id = ${id}`,
+            (err, res) => {
+            if(err) {
+                console.log("Error: ", err);
+                result(err, null);
+                return;
+            }
+            if(res.affectedRows == 0) {
+                result({ kind: "not_found" }, null);
+                return;
+            }
+            console.log("Deleted user with id: ", id);
+            result(null, id);
         }
-        if(res.affectedRows == 0) {
-            result({ kind: "not_found" }, null);
-            return;
-        }
-        console.log("Deleted user with id: ", id);
-        result(null, id);
-    });
+    );
 }
 
 module.exports = User
