@@ -85,16 +85,4 @@ User.deleteById = (id, result) => {
     });
 }
 
-User.deleteAll = result => {
-    sql.query(`DELETE FROM users`, (err, res) => {
-        if(err) {
-            console.log("Error: ", err);
-            result(err, null);
-            return;
-        }
-        console.log(`Deleted ${res.affectedRows} users`);
-        result(null, res);
-    });
-}
-
 module.exports = User
