@@ -13,16 +13,11 @@ const Product = function(product) {
 
 Product.create = (newProduct, result) => {
     sql.query(
-        `INSERT INTO products 
-        (
-            name, group, description, code,
-            barcode, measure_unit, purchase_price, retail_price
-        ) 
-        VALUES 
-        (
-            ${newProduct.name}, ${newProduct.group}, ${newProduct.description}, ${newProduct.code},
-            ${newProduct.barcode}, ${newProduct.measureUnit}, ${newProduct.purchasePrice}, ${newProduct.retailPrice}
-        )`,
+        `INSERT INTO products (name, products.group, description, products.code, barcode, measure_unit, purchase_price, retail_price) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+        [
+            newProduct.name, newProduct.group, newProduct.description, newProduct.code,
+            newProduct.barcode, newProduct.measureUnit, newProduct.purchasePrice, newProduct.retailPrice
+        ],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
@@ -38,7 +33,8 @@ Product.create = (newProduct, result) => {
 
 Product.findById = (productId, result) => {
     sql.query(
-        `SELECT * FROM products WHERE id = ${productId}`,
+        `SELECT * FROM products WHERE id = ?`,
+        productId,
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
@@ -74,13 +70,13 @@ Product.getAll = result => {
 };
 
 Product.updateById = (id, product, result) => {
-    name, group, description, code,
-    barcode, measure_unit, purchase_price, retail_price
     sql.query(
-        `UPDATE products SET 
-            name = ${product.name}, group = ${product.group}, description = ${product.description}, code = ${product.core},
-            barcode = ${product.barcode}, measure_unit = ${product.measureUnit}, purchase_price = ${product.purchasePrice},
-            retail_price = ${product.retailPrice}`,
+        `UPDATE products SET name = ?, products.group = ?, description = ?, products.code = ?, barcode = ?, measure_unit = ?, purchase_price = ?, retail_price = ? WHERE id = ?`,
+        [
+            product.name, product.group, product.description, product.code,
+            product.barcode, product.measureUnit, product.purchasePrice, product.retailPrice,
+            id
+        ],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
@@ -99,7 +95,8 @@ Product.updateById = (id, product, result) => {
 
 Product.deleteById = (id, result) => {
     sql.query(
-        `DELETE FROM products WHERE id = ${id}`,
+        `DELETE FROM products WHERE id = ?`,
+        id,
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
