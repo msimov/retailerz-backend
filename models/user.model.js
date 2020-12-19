@@ -4,18 +4,22 @@ const User = function(user) {
     this.firstName = user.firstName;
     this.lastName = user.lastName;
     this.email = user.email;
+    this.type = user.type;
 };
 
 User.create = (newUser, result) => {
-    sql.query("INSERT INTO users SET ?", newUser, (err, res) => {
-        if(err) {
-            console.log("Error: ", err);
-            result(err, null);
-            return;
-        }
+    sql.query(
+        "INSERT INTO users (first_name, last_name, email, type) VALUES (?, ?, ?, ?)",
+        [newUser.firstName, newUser.lastName, newUser.email, newUser.type], 
+        (err, res) => {
+            if(err) {
+                console.log("Error: ", err);
+                result(err, null);
+                return;
+            }
 
-        console.log("Created user: ", { id: res.insertId, ...newUser });
-        result(null, { id: res.insertId, ...newUser });
+            console.log("Created user: ", { id: res.insertId, ...newUser });
+            result(null, { id: res.insertId, ...newUser });
     });
 };
 
@@ -52,7 +56,7 @@ User.getAll = result => {
 
 User.updateById = (id, user, result) => {
     sql.query(
-        "UPDATE users SET firstName = ?, lastName = ?, email = ?",
+        "UPDATE users SET first_name = ?, last_name = ?, email = ?",
         [user.firstName, user.lastName, user.email],
         (err, res) => {
             if(err) {
