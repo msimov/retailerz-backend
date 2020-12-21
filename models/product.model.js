@@ -9,14 +9,16 @@ const Product = function(product) {
     this.measureUnit = product.measureUnit;
     this.purchasePrice = product.purchasePrice;
     this.retailPrice = product.retailPrice;
+    this.user = product.user;
 };
 
 Product.create = (newProduct, result) => {
     sql.query(
-        `INSERT INTO products (name, products.group, description, products.code, barcode, measure_unit, purchase_price, retail_price) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+        `INSERT INTO products (name, products.group, description, products.code, barcode, measure_unit, purchase_price, retail_price, user) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         [
             newProduct.name, newProduct.group, newProduct.description, newProduct.code,
-            newProduct.barcode, newProduct.measureUnit, newProduct.purchasePrice, newProduct.retailPrice
+            newProduct.barcode, newProduct.measureUnit, newProduct.purchasePrice, newProduct.retailPrice,
+            newProduct.user
         ],
         (err, res) => {
             if(err) {
