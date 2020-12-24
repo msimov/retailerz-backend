@@ -18,13 +18,14 @@ admin.initializeApp({
 });
 
 module.exports = function(req, res, next) {
-    if (
-        req.headers.authorization &&
-        req.headers.authorization.split(' ')[0] === 'Bearer'
-      ) {
+    if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
         req.authToken = req.headers.authorization.split(' ')[1];
-      } else {
-        req.authToken = null;
-      }
-      next();
+        admin.auth().verifyIdToken(req.authToken).then(() => {
+            next();
+        }).catch(() => {
+            res.status(403).send("Unauthorized");
+        });
+    } else {
+        res.status(403).send("Unauthorized");
+    }
 }
