@@ -1,6 +1,7 @@
 const sql = require('./db');
 
 const User = function(user) {
+    this.id = user.id;
     this.firstName = user.firstName;
     this.lastName = user.lastName;
     this.email = user.email;
@@ -9,8 +10,8 @@ const User = function(user) {
 
 User.create = (newUser, result) => {
     sql.query(
-        `INSERT INTO users (first_name, last_name, email, type) VALUES (?, ?, ?, ?)`,
-        [newUser.firstName, newUser.lastName, newUser.email, newUser.type],
+        `INSERT INTO users (id, first_name, last_name, email, type) VALUES (?, ?, ?, ?, ?)`,
+        [newUser.id, newUser.firstName, newUser.lastName, newUser.email, newUser.type],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
