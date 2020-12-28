@@ -1,7 +1,6 @@
 const sql = require('./db');
 
 const UserType = function(userType) {
-    this.id = userType.id;
     this.type = userType.type;
 };
 
@@ -37,7 +36,7 @@ UserType.getAll = result => {
                 return;
             }
             
-            console.log("Products: ", res);
+            console.log("User Types: ", res);
             result(null, res);
         }
     );
