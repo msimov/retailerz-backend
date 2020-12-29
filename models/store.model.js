@@ -1,13 +1,14 @@
 const sql = require('./db');
 
-const Warehouse = function(warehouse) {
-    this.location = warehouse.location;
+const Store = function(store) {
+    this.location = store.location;
+    this.warehouse = store.warehouse;
 };
 
-Warehouse.create = (userId, newWarehouse, result) => {
+Store.create = (userId, newStore, result) => {
     sql.query(
-        `INSERT INTO warehouses (user , location) VALUES (?, ?)`,
-        [userId, newWarehouse.location],
+        `INSERT INTO stores (user , location, warehouse) VALUES (?, ?, ?)`,
+        [userId, newStore.location, newStore.warehouse],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
@@ -15,15 +16,15 @@ Warehouse.create = (userId, newWarehouse, result) => {
                 return;
             }
 
-            console.log("Created warehouse: ", {id: res.insertId, ...newWarehouse}, " for user: ", userId);
-            result(null, { id: res.insertId, ...newWarehouse });
+            console.log("Created store: ", {id: res.insertId, ...newStore}, " for user: ", userId);
+            result(null, { id: res.insertId, ...newStore });
         }
     );
 };
 
-Warehouse.findById = (userId, warehouseId, result) => {
+Store.findById = (userId, warehouseId, result) => {
     sql.query(
-        `SELECT * FROM warehouses WHERE user = ? AND id = ?`,
+        `SELECT * FROM stores WHERE user = ? AND id = ?`,
         [userId, warehouseId],
         (err, res) => {
             if(err) {
@@ -33,7 +34,7 @@ Warehouse.findById = (userId, warehouseId, result) => {
             }
 
             if(res.length) {
-                console.log("Found warehouse: ", res[0], " for user: ", userId);
+                console.log("Found store: ", res[0], " for user: ", userId);
                 result(null, res[0]);
                 return;
             }
@@ -43,9 +44,9 @@ Warehouse.findById = (userId, warehouseId, result) => {
     );
 };
 
-Warehouse.getAll = (userId, result) => {
+Store.getAll = (userId, result) => {
     sql.query(
-        "SELECT * FROM warehouses WHERE user = ?",
+        "SELECT * FROM stores WHERE user = ?",
         userId,
         (err, res) => {
             if(err) {
@@ -54,16 +55,16 @@ Warehouse.getAll = (userId, result) => {
                 return;
             }
             
-            console.log("Found Warehouses: ", res, " for user: ", userId);
+            console.log("Found Stores: ", res, " for user: ", userId);
             result(null, res);
         }
     );
 };
 
-Warehouse.updateById = (userId, warehouseId, warehouse, result) => {
+Store.updateById = (userId, warehouseId, store, result) => {
     sql.query(
-        `UPDATE warehouses SET location = ?, user = ? WHERE user = ? AND id = ?`,
-        [warehouse.location, warehouse.user, userId, warehouseId],
+        `UPDATE stores SET location = ?, user = ?, warehouse = ? WHERE user = ? AND id = ?`,
+        [store.location, store.user, store.warehouse, userId, warehouseId],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
@@ -75,15 +76,15 @@ Warehouse.updateById = (userId, warehouseId, warehouse, result) => {
                 return;
             }
 
-            console.log("Updated warehouse: ", {id: warehouseId, ...warehouse}, " for user: ", userId);
-            result(null, { warehouseId: warehouseId, ...warehouse });
+            console.log("Updated store: ", {id: warehouseId, ...store}, " for user: ", userId);
+            result(null, { warehouseId: warehouseId, ...store });
         }
     );
 };
 
-Warehouse.deleteById = (userId, warehouseId, result) => {
+Store.deleteById = (userId, warehouseId, result) => {
     sql.query(
-        `DELETE FROM warehouses WHERE user = ? AND id = ?`,
+        `DELETE FROM stores WHERE user = ? AND id = ?`,
         [userId, warehouseId],
         (err, res) => {
             if(err) {
@@ -95,10 +96,10 @@ Warehouse.deleteById = (userId, warehouseId, result) => {
                 result({ kind: "not_found" }, null);
                 return;
             }
-            console.log("Deleted warehouse with id: ", warehouseId, " for user ", userId);
+            console.log("Deleted store with id: ", warehouseId, " for user ", userId);
             result(null, id);
         }
     );
 }
 
-module.exports = Warehouse
+module.exports = Store

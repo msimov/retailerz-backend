@@ -1,4 +1,4 @@
-const Warehouse = require("../models/warehouse.model");
+const Store = require("../models/store.model");
 
 exports.create = (req, res) => {
     if(!req.body) {
@@ -7,15 +7,16 @@ exports.create = (req, res) => {
         });
     }
 
-    const warehouse = new Warehouse({
+    const store = new Store({
         location: req.body.location,
+        warehouse: req.body.warehouse
     });
 
-    Warehouse.create(req.params.userId, warehouse, (err, data) => {
+    Store.create(req.params.userId, store, (err, data) => {
         if(err) {
             res.status(500).send({
                 message: 
-                    err.message || "An error occurred while creating the warehouse."
+                    err.message || "An error occurred while creating the store."
             });
         } else {
             res.send(data);
@@ -24,16 +25,16 @@ exports.create = (req, res) => {
 };
 
 exports.findById = (req, res) => {
-    Warehouse.findById(req.params.userId, req.params.warehouseId, (err, data) => {
+    Store.findById(req.params.userId, req.params.warehouseId, (err, data) => {
         if(err) {
             if(err.kind === "not_found") {
                 res.status(400).send({
-                    message: `Warehouse with id ${req.params.warehouseId} not found.`
+                    message: `Store with id ${req.params.warehouseId} not found.`
                 });
             } else {
                 res.status(500).send({
                     message:
-                        err.message || `An error occurred while getting warehouse with id ${req.params.warehouseId}.`
+                        err.message || `An error occurred while getting store with id ${req.params.warehouseId}.`
                 });
             }
         } else {
@@ -43,7 +44,7 @@ exports.findById = (req, res) => {
 };
 
 exports.getAll = (req, res) => {
-    Warehouse.getAll(req.params.userId, (err, data) => {
+    Store.getAll(req.params.userId, (err, data) => {
         if(err) {
             res.status(500).send({
                 message:
@@ -62,24 +63,25 @@ exports.updateById = (req, res) => {
         });
     }
 
-    const warehouse = new Warehouse({
+    const store = new Store({
         location: req.body.location,
+        warehouse: req.body.warehouse
     });
 
-    Warehouse.updateById(
+    Store.updateById(
         req.params.userId,
         req.params.warehouseId,
-        warehouse,
+        store,
         (err, data) => {
             if(err) {
                 if(err.kind === "not_found") {
                     res.status(400).send({
-                        message: `Warehouse with id ${req.params.warehouseId} not found.`
+                        message: `Store with id ${req.params.warehouseId} not found.`
                     });
                 } else {
                     res.status(400).send({
                         message:
-                        err.message || `An error occurred while updating warehouse with id ${req.params.warehouseId}.`
+                        err.message || `An error occurred while updating store with id ${req.params.warehouseId}.`
                     });
                 }
             } else {
@@ -90,15 +92,15 @@ exports.updateById = (req, res) => {
 }
 
 exports.deleteById = (req, res) => {
-    Warehouse.deleteById(req.params.userId, req.params.warehouseId, (err, data) => {
+    Store.deleteById(req.params.userId, req.params.warehouseId, (err, data) => {
         if(err) {
             if(err.kind === "not_found") {
                 res.status(404).send({
-                    message: `Warehouse with id ${req.params.warehouseId} not found.`
+                    message: `Store with id ${req.params.warehouseId} not found.`
                 })
             } else {
                 res.status(500).send({
-                    message: err.message || `An error occurred while deleting warehouse with id ${req.params.warehouseId}.`
+                    message: err.message || `An error occurred while deleting store with id ${req.params.warehouseId}.`
                 });
             }
         } else {
