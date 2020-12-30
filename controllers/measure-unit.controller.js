@@ -1,4 +1,4 @@
-const Store = require("../models/store.model");
+const MeasureUnit = require("../models/measure-unit.model");
 
 exports.create = (req, res) => {
     if(!req.body) {
@@ -7,15 +7,15 @@ exports.create = (req, res) => {
         });
     }
 
-    const store = new Store({
-        location: req.body.location,
+    const measureUnit = new MeasureUnit({
+        unit: req.body.unit,
     });
 
-    Store.create(req.params.userId, store, (err, data) => {
+    MeasureUnit.create(req.params.userId, measureUnit, (err, data) => {
         if(err) {
             res.status(500).send({
                 message: 
-                    err.message || "An error occurred while creating the store."
+                    err.message || "An error occurred while creating the measure unit."
             });
         } else {
             res.send(data);
@@ -24,16 +24,16 @@ exports.create = (req, res) => {
 };
 
 exports.findById = (req, res) => {
-    Store.findById(req.params.userId, req.params.storeId, (err, data) => {
+    MeasureUnit.findById(req.params.userId, req.params.measureUnitId, (err, data) => {
         if(err) {
             if(err.kind === "not_found") {
                 res.status(400).send({
-                    message: `Store with id ${req.params.storeId} not found.`
+                    message: `Measure unit with id ${req.params.measureUnitId} not found.`
                 });
             } else {
                 res.status(500).send({
                     message:
-                        err.message || `An error occurred while getting store with id ${req.params.storeId}.`
+                        err.message || `An error occurred while getting measure unit with id ${req.params.measureUnitId}.`
                 });
             }
         } else {
@@ -43,11 +43,11 @@ exports.findById = (req, res) => {
 };
 
 exports.getAll = (req, res) => {
-    Store.getAll(req.params.userId, (err, data) => {
+    MeasureUnit.getAll(req.params.userId, (err, data) => {
         if(err) {
             res.status(500).send({
                 message:
-                    err.message || "An error occurred while getting the stores."
+                    err.message || "An error occurred while getting the measure units."
             });
         } else {
             res.send(data);
@@ -62,24 +62,24 @@ exports.updateById = (req, res) => {
         });
     }
 
-    const store = new Store({
-        location: req.body.location,
+    const measureUnit = new MeasureUnit({
+        unit: req.body.unit,
     });
 
-    Store.updateById(
+    MeasureUnit.updateById(
         req.params.userId,
-        req.params.storeId,
-        store,
+        req.params.measureUnitId,
+        measureUnit,
         (err, data) => {
             if(err) {
                 if(err.kind === "not_found") {
                     res.status(400).send({
-                        message: `Store with id ${req.params.storeId} not found.`
+                        message: `Measure unit with id ${req.params.measureUnitId} not found.`
                     });
                 } else {
                     res.status(400).send({
                         message:
-                        err.message || `An error occurred while updating store with id ${req.params.storeId}.`
+                        err.message || `An error occurred while updating measure unit with id ${req.params.measureUnitId}.`
                     });
                 }
             } else {
@@ -90,15 +90,15 @@ exports.updateById = (req, res) => {
 }
 
 exports.deleteById = (req, res) => {
-    Store.deleteById(req.params.userId, req.params.storeId, (err, data) => {
+    MeasureUnit.deleteById(req.params.userId, req.params.measureUnitId, (err, data) => {
         if(err) {
             if(err.kind === "not_found") {
                 res.status(404).send({
-                    message: `Store with id ${req.params.storeId} not found.`
+                    message: `Measure unit with id ${req.params.measureUnitId} not found.`
                 })
             } else {
                 res.status(500).send({
-                    message: err.message || `An error occurred while deleting store with id ${req.params.storeId}.`
+                    message: err.message || `An error occurred while deleting measure unit with id ${req.params.measureUnitId}.`
                 });
             }
         } else {

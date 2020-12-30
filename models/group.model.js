@@ -1,13 +1,13 @@
 const sql = require('./db');
 
-const Store = function(store) {
-    this.location = store.location;
-}
+const Group = function(group) {
+    this.name = group.name;
+};
 
-Store.create = (userId, newStore, result) => {
+Group.create = (userId, newGroup, result) => {
     sql.query(
-        `INSERT INTO stores (user , location) VALUES (?, ?)`,
-        [userId, newStore.location],
+        `INSERT INTO groups (user , name) VALUES (?, ?)`,
+        [userId, newGroup.name],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
@@ -15,16 +15,16 @@ Store.create = (userId, newStore, result) => {
                 return;
             }
 
-            console.log("Created store: ", {id: res.insertId, ...newStore}, " for user: ", userId);
-            result(null, { id: res.insertId, ...newStore });
+            console.log("Created group: ", {id: res.insertId, ...newGroup}, " for user: ", userId);
+            result(null, { id: res.insertId, ...newGroup });
         }
     );
 };
 
-Store.findById = (userId, storeId, result) => {
+Group.findById = (userId, groupId, result) => {
     sql.query(
-        `SELECT * FROM stores WHERE user = ? AND id = ?`,
-        [userId, storeId],
+        `SELECT * FROM groups WHERE user = ? AND id = ?`,
+        [userId, groupId],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
@@ -33,7 +33,7 @@ Store.findById = (userId, storeId, result) => {
             }
 
             if(res.length) {
-                console.log("Found store: ", res[0], " for user: ", userId);
+                console.log("Found group: ", res[0], " for user: ", userId);
                 result(null, res[0]);
                 return;
             }
@@ -43,9 +43,9 @@ Store.findById = (userId, storeId, result) => {
     );
 };
 
-Store.getAll = (userId, result) => {
+Group.getAll = (userId, result) => {
     sql.query(
-        "SELECT * FROM stores WHERE user = ?",
+        "SELECT * FROM retailerz.groups WHERE user = ?",
         userId,
         (err, res) => {
             if(err) {
@@ -54,16 +54,16 @@ Store.getAll = (userId, result) => {
                 return;
             }
             
-            console.log("Found Stores: ", res, " for user: ", userId);
+            console.log("Found Group: ", res, " for user: ", userId);
             result(null, res);
         }
     );
 };
 
-Store.updateById = (userId, storeId, store, result) => {
+Group.updateById = (userId, groupId, group, result) => {
     sql.query(
-        `UPDATE stores SET location = ?, user = ? WHERE user = ? AND id = ?`,
-        [store.location, store.user, userId, storeId],
+        `UPDATE groups SET name = ? WHERE user = ? AND id = ?`,
+        [group.name, userId, groupId],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
@@ -75,16 +75,16 @@ Store.updateById = (userId, storeId, store, result) => {
                 return;
             }
 
-            console.log("Updated store: ", {id: storeId, ...store}, " for user: ", userId);
-            result(null, { storeId: storeId, ...store });
+            console.log("Updated group: ", {id: groupId, ...group}, " for user: ", userId);
+            result(null, { groupId, ...group });
         }
     );
 };
 
-Store.deleteById = (userId, storeId, result) => {
+Group.deleteById = (userId, groupId, result) => {
     sql.query(
-        `DELETE FROM stores WHERE user = ? AND id = ?`,
-        [userId, storeId],
+        `DELETE FROM groups WHERE user = ? AND id = ?`,
+        [userId, groupId],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
@@ -95,10 +95,10 @@ Store.deleteById = (userId, storeId, result) => {
                 result({ kind: "not_found" }, null);
                 return;
             }
-            console.log("Deleted store with id: ", storeId, " for user ", userId);
+            console.log("Deleted group with id: ", groupId, " for user ", userId);
             result(null, id);
         }
     );
 }
 
-module.exports = Store
+module.exports = Group

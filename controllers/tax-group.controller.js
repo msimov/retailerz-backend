@@ -1,18 +1,18 @@
-const UserType = require("../models/user-type.model");
+const TaxGroup = require("../models/tax-group.model");
 
 exports.findById = (req, res) => {
-    UserType.findById(
-        req.params.userTypeId,
+    TaxGroup.findById(
+        req.params.taxGroupId,
         (err, data) => {
             if(err) {
                 if(err.kind === "not_found") {
                     res.status(400).send({
-                        message: `User type with id ${req.params.userTypeId} not found.`
+                        message: `Tax group with id ${req.params.taxGroupId} not found.`
                     });
                 } else {
                     res.status(500).send({
                         message:
-                            err.message || `An error occurred while getting user type with id ${req.params.userTypeId}.`
+                            err.message || `An error occurred while getting tax group with id ${req.params.taxGroupId}.`
                     });
                 }
             } else {
@@ -23,11 +23,11 @@ exports.findById = (req, res) => {
 };
 
 exports.getAll = (req, res) => {
-    UserType.getAll((err, data) => {
+    TaxGroup.getAll((err, data) => {
         if(err) {
             res.status(500).send({
                 message:
-                    err.message || "An error occurred while getting the user types."
+                    err.message || "An error occurred while getting the tax groups."
             });
         } else {
             res.send(data);

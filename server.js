@@ -14,8 +14,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 require("./routes/user.routes")(app);
 require("./routes/product.routes")(app);
 require("./routes/user-type.routes")(app);
-require("./routes/warehouse.routes")(app);
 require("./routes/store.routes")(app);
+require("./routes/group.routes")(app);
+require("./routes/measure-unit.routes")(app);
+require("./routes/tax-group.routes")(app);
+
 
 app.listen(3001, () => {
     console.log("Server is running on PORT 3001");

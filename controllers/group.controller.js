@@ -1,4 +1,4 @@
-const Warehouse = require("../models/warehouse.model");
+const Group = require("../models/group.model");
 
 exports.create = (req, res) => {
     if(!req.body) {
@@ -7,15 +7,15 @@ exports.create = (req, res) => {
         });
     }
 
-    const warehouse = new Warehouse({
-        location: req.body.location,
+    const group = new Group({
+        name: req.body.name,
     });
 
-    Warehouse.create(req.params.userId, warehouse, (err, data) => {
+    Group.create(req.params.userId, group, (err, data) => {
         if(err) {
             res.status(500).send({
                 message: 
-                    err.message || "An error occurred while creating the warehouse."
+                    err.message || "An error occurred while creating the group."
             });
         } else {
             res.send(data);
@@ -24,16 +24,16 @@ exports.create = (req, res) => {
 };
 
 exports.findById = (req, res) => {
-    Warehouse.findById(req.params.userId, req.params.warehouseId, (err, data) => {
+    Group.findById(req.params.userId, req.params.groupId, (err, data) => {
         if(err) {
             if(err.kind === "not_found") {
                 res.status(400).send({
-                    message: `Warehouse with id ${req.params.warehouseId} not found.`
+                    message: `Group with id ${req.params.groupId} not found.`
                 });
             } else {
                 res.status(500).send({
                     message:
-                        err.message || `An error occurred while getting warehouse with id ${req.params.warehouseId}.`
+                        err.message || `An error occurred while getting group with id ${req.params.groupId}.`
                 });
             }
         } else {
@@ -43,17 +43,18 @@ exports.findById = (req, res) => {
 };
 
 exports.getAll = (req, res) => {
-    Warehouse.getAll(req.params.userId, (err, data) => {
+    Group.getAll(req.params.userId, (err, data) => {
         if(err) {
             res.status(500).send({
                 message:
-                    err.message || "An error occurred while getting the warehouses."
+                    err.message || "An error occurred while getting the measure units."
             });
         } else {
             res.send(data);
         }
     });
 };
+
 
 exports.updateById = (req, res) => {
     if (!req.body) {
@@ -62,24 +63,24 @@ exports.updateById = (req, res) => {
         });
     }
 
-    const warehouse = new Warehouse({
-        location: req.body.location,
+    const group = new Group({
+        name: req.body.name,
     });
 
-    Warehouse.updateById(
+    Group.updateById(
         req.params.userId,
-        req.params.warehouseId,
-        warehouse,
+        req.params.groupId,
+        group,
         (err, data) => {
             if(err) {
                 if(err.kind === "not_found") {
                     res.status(400).send({
-                        message: `Warehouse with id ${req.params.warehouseId} not found.`
+                        message: `Group with id ${req.params.groupId} not found.`
                     });
                 } else {
                     res.status(400).send({
                         message:
-                        err.message || `An error occurred while updating warehouse with id ${req.params.warehouseId}.`
+                        err.message || `An error occurred while updating group with id ${req.params.groupId}.`
                     });
                 }
             } else {
@@ -90,15 +91,15 @@ exports.updateById = (req, res) => {
 }
 
 exports.deleteById = (req, res) => {
-    Warehouse.deleteById(req.params.userId, req.params.warehouseId, (err, data) => {
+    Group.deleteById(req.params.userId, req.params.groupId, (err, data) => {
         if(err) {
             if(err.kind === "not_found") {
                 res.status(404).send({
-                    message: `Warehouse with id ${req.params.warehouseId} not found.`
+                    message: `Group with id ${req.params.groupId} not found.`
                 })
             } else {
                 res.status(500).send({
-                    message: err.message || `An error occurred while deleting warehouse with id ${req.params.warehouseId}.`
+                    message: err.message || `An error occurred while deleting group with id ${req.params.groupId}.`
                 });
             }
         } else {
