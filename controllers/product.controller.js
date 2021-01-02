@@ -8,6 +8,7 @@ exports.create = (req, res) => {
     }
 
     Product.create(
+        req.params.userId,
         new Product(req.body),
         (err, data) => {
             if(err) {
@@ -24,6 +25,7 @@ exports.create = (req, res) => {
 
 exports.findById = (req, res) => {
     Product.findById(
+        req.params.userId,
         req.params.productId,
         (err, data) => {
             if(err) {
@@ -45,7 +47,9 @@ exports.findById = (req, res) => {
 };
 
 exports.getAll = (req, res) => {
-    Product.getAll((err, data) => {
+    Product.getAll(
+        req.params.userId,
+        (err, data) => {
         if(err) {
             res.status(500).send({
                 message:
@@ -65,6 +69,7 @@ exports.updateById = (req, res) => {
     }
 
     Product.updateById(
+        req.params.userId,
         req.params.productId,
         new Product(req.body),
         (err, data) => {
@@ -88,6 +93,7 @@ exports.updateById = (req, res) => {
 
 exports.deleteById = (req, res) => {
     Product.deleteById(
+        req.params.userId,
         req.params.productId,
         (err, data) => {
             if(err) {

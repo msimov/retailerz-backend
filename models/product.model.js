@@ -7,18 +7,20 @@ const Product = function(product) {
     this.code = product.code;
     this.barcode = product.barcode;
     this.measureUnit = product.measureUnit;
-    this.purchasePrice = product.purchasePrice;
+    this.taxGroup = product.taxGroup;
     this.retailPrice = product.retailPrice;
-    this.user = product.user;
+    this.deliveryPrice = product.deliveryPrice;
+    this.expiryDate = product.expiryDate;
+    this.store = product.store;
 };
 
-Product.create = (newProduct, result) => {
+Product.create = (userId, newProduct, result) => {
     sql.query(
-        `INSERT INTO products (name, products.group, description, products.code, barcode, measure_unit, purchase_price, retail_price, user) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+         `INSERT INTO products (products.name, products.group, products.description, products.code, products.barcode, products.measure_unit, products.tax_group, products.retail_price, products.delivery_price, products.expiry_date, products.store, products.user) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, STR_TO_DATE(?, "%Y-%m-%d"), ?, ?)`,
         [
             newProduct.name, newProduct.group, newProduct.description, newProduct.code,
-            newProduct.barcode, newProduct.measureUnit, newProduct.purchasePrice, newProduct.retailPrice,
-            newProduct.user
+            newProduct.barcode, newProduct.measureUnit, newProduct.taxGroup, newProduct.retailPrice,
+            newProduct.deliveryPrice, newProduct.expiryDate, newProduct.store, userId
         ],
         (err, res) => {
             if(err) {
@@ -33,10 +35,10 @@ Product.create = (newProduct, result) => {
     );
 };
 
-Product.findById = (productId, result) => {
+Product.findById = (userId, productId, result) => {
     sql.query(
-        `SELECT * FROM products WHERE id = ?`,
-        productId,
+        `SELECT * FROM products WHERE user = ? AND id = ?`,
+        [userId, productId],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
@@ -55,9 +57,10 @@ Product.findById = (productId, result) => {
     );
 };
 
-Product.getAll = result => {
+Product.getAll = (userId, result) => {
     sql.query(
-        "SELECT * FROM products",
+        "SELECT * FROM products WHERE user = ?",
+        userId,
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
@@ -71,13 +74,13 @@ Product.getAll = result => {
     );
 };
 
-Product.updateById = (id, product, result) => {
+Product.updateById = (userId, productId, product, result) => {
     sql.query(
-        `UPDATE products SET name = ?, products.group = ?, description = ?, products.code = ?, barcode = ?, measure_unit = ?, purchase_price = ?, retail_price = ? WHERE id = ?`,
+        `UPDATE products SET name = ?, products.group = ?, description = ?, products.code = ?, barcode = ?, measure_unit = ?, tax_group = ?, retail_price = ?, delivery_price = ?, expiry_date = ?, store = ? WHERE user = ? AND id = ?`,
         [
-            product.name, product.group, product.description, product.code,
-            product.barcode, product.measureUnit, product.purchasePrice, product.retailPrice,
-            id
+            newProduct.name, newProduct.group, newProduct.description, newProduct.code,
+            newProduct.barcode, newProduct.measureUnit, newProduct.taxGroup, newProduct.retailPrice,
+            newProduct.deliveryPrice, newProduct.expiryDate, newProduct.store, userId, productId
         ],
         (err, res) => {
             if(err) {
@@ -95,10 +98,10 @@ Product.updateById = (id, product, result) => {
         });
 };
 
-Product.deleteById = (id, result) => {
+Product.deleteById = (userId, productId, result) => {
     sql.query(
-        `DELETE FROM products WHERE id = ?`,
-        id,
+        `DELETE FROM products WHERE user = ? AND id = ?`,
+        [userId, productId],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
