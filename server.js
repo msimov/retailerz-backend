@@ -18,6 +18,8 @@ require("./routes/store.routes")(app);
 require("./routes/group.routes")(app);
 require("./routes/measure-unit.routes")(app);
 require("./routes/tax-group.routes")(app);
+require("./routes/operation.routes")(app);
+require("./routes/operation-type.routes")(app);
 
 
 app.listen(3001, () => {

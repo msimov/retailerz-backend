@@ -54,7 +54,7 @@ Group.getAll = (userId, result) => {
                 return;
             }
             
-            console.log("Found Group: ", res, " for user: ", userId);
+            console.log("Found groups: ", res, " for user: ", userId);
             result(null, res);
         }
     );

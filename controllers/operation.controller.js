@@ -1,4 +1,4 @@
-const Group = require("../models/group.model");
+const Operation = require("../models/operation.model");
 
 exports.create = (req, res) => {
     if(!req.body) {
@@ -7,15 +7,17 @@ exports.create = (req, res) => {
         });
     }
 
-    const group = new Group({
-        name: req.body.name,
+    const operation = new Operation({
+        product: req.body.product,
+        operation: req.body.operation,
+        count: req.body.count
     });
 
-    Group.create(req.params.userId, group, (err, data) => {
+    Operation.create(req.params.userId, operation, (err, data) => {
         if(err) {
             res.status(500).send({
                 message: 
-                    err.message || "An error occurred while creating the group."
+                    err.message || "An error occurred while creating the operation."
             });
         } else {
             res.send(data);
@@ -24,16 +26,16 @@ exports.create = (req, res) => {
 };
 
 exports.findById = (req, res) => {
-    Group.findById(req.params.userId, req.params.groupId, (err, data) => {
+    Operation.findById(req.params.userId, req.params.operationId, (err, data) => {
         if(err) {
             if(err.kind === "not_found") {
                 res.status(400).send({
-                    message: `Group with id ${req.params.groupId} not found.`
+                    message: `Operation with id ${req.params.operationId} not found.`
                 });
             } else {
                 res.status(500).send({
                     message:
-                        err.message || `An error occurred while getting group with id ${req.params.groupId}.`
+                        err.message || `An error occurred while getting operation with id ${req.params.operationId}.`
                 });
             }
         } else {
@@ -43,11 +45,11 @@ exports.findById = (req, res) => {
 };
 
 exports.getAll = (req, res) => {
-    Group.getAll(req.params.userId, (err, data) => {
+    Operation.getAll(req.params.userId, (err, data) => {
         if(err) {
             res.status(500).send({
                 message:
-                    err.message || "An error occurred while getting the groups."
+                    err.message || "An error occurred while getting the operations."
             });
         } else {
             res.send(data);
@@ -63,24 +65,26 @@ exports.updateById = (req, res) => {
         });
     }
 
-    const group = new Group({
-        name: req.body.name,
+    const operation = new Operation({
+        product: req.body.product,
+        operation: req.body.operation,
+        count: req.body.count
     });
 
-    Group.updateById(
+    Operation.updateById(
         req.params.userId,
-        req.params.groupId,
-        group,
+        req.params.operationId,
+        operation,
         (err, data) => {
             if(err) {
                 if(err.kind === "not_found") {
                     res.status(400).send({
-                        message: `Group with id ${req.params.groupId} not found.`
+                        message: `Operation with id ${req.params.operationId} not found.`
                     });
                 } else {
                     res.status(400).send({
                         message:
-                        err.message || `An error occurred while updating group with id ${req.params.groupId}.`
+                        err.message || `An error occurred while updating OPERATION with id ${req.params.operationId}.`
                     });
                 }
             } else {
@@ -91,15 +95,15 @@ exports.updateById = (req, res) => {
 }
 
 exports.deleteById = (req, res) => {
-    Group.deleteById(req.params.userId, req.params.groupId, (err, data) => {
+    Operation.deleteById(req.params.userId, req.params.operationId, (err, data) => {
         if(err) {
             if(err.kind === "not_found") {
                 res.status(404).send({
-                    message: `Group with id ${req.params.groupId} not found.`
+                    message: `Operation with id ${req.params.operationId} not found.`
                 })
             } else {
                 res.status(500).send({
-                    message: err.message || `An error occurred while deleting group with id ${req.params.groupId}.`
+                    message: err.message || `An error occurred while deleting operation with id ${req.params.operationId}.`
                 });
             }
         } else {
