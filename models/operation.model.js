@@ -2,14 +2,14 @@ const sql = require('./db');
 
 const Operation = function(operation) {
     this.product = operation.product;
-    this.operation = operation.operation;
+    this.operationType = operation.operationType;
     this.count = operation.count;
 };
 
 Operation.create = (userId, newOperation, result) => {
     sql.query(
         `INSERT INTO operations (user, product, operation, count) VALUES (?, ?, ?, ?)`,
-        [userId, newOperation.product, newOperation.operation, newOperation.count],
+        [userId, newOperation.product, newOperation.operationType, newOperation.count],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
@@ -55,16 +55,16 @@ Operation.getAll = (userId, result) => {
                 return;
             }
             
-            console.log("Found Stocks: ", res, " for user: ", userId);
+            console.log("Found Operations: ", res, " for user: ", userId);
             result(null, res);
         }
     );
 };
 
-Operation.updateById = (userId, stockId, operation, result) => {
+Operation.updateById = (userId, operationId, operation, result) => {
     sql.query(
         `UPDATE operations SET count = ?, product = ?, operation = ? WHERE user = ? AND id = ?`,
-        [operation.product, operation.count, operation.operation, userId, stockId],
+        [operation.count, operation.product, operation.operationType, userId, operationId],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
@@ -76,16 +76,16 @@ Operation.updateById = (userId, stockId, operation, result) => {
                 return;
             }
 
-            console.log("Updated operation: ", {id: stockId, ...operation}, " for user: ", userId);
-            result(null, { stockId, ...operation });
+            console.log("Updated operation: ", {id: operationId, ...operation}, " for user: ", userId);
+            result(null, { operationId, ...operation });
         }
     );
 };
 
-Operation.deleteById = (userId, stockId, result) => {
+Operation.deleteById = (userId, operationId, result) => {
     sql.query(
         `DELETE FROM operations WHERE user = ? AND id = ?`,
-        [userId, stockId],
+        [userId, operationId],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
@@ -96,7 +96,7 @@ Operation.deleteById = (userId, stockId, result) => {
                 result({ kind: "not_found" }, null);
                 return;
             }
-            console.log("Deleted operation with id: ", stockId, " for user ", userId);
+            console.log("Deleted operation with id: ", operationId, " for user ", userId);
             result(null, id);
         }
     );

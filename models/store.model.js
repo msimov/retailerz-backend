@@ -63,7 +63,7 @@ Store.getAll = (userId, result) => {
 Store.updateById = (userId, storeId, store, result) => {
     sql.query(
         `UPDATE stores SET location = ?, user = ? WHERE user = ? AND id = ?`,
-        [store.location, store.user, userId, storeId],
+        [store.location, userId, userId, storeId],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
@@ -96,7 +96,7 @@ Store.deleteById = (userId, storeId, result) => {
                 return;
             }
             console.log("Deleted store with id: ", storeId, " for user ", userId);
-            result(null, id);
+            result(null, storeId);
         }
     );
 }

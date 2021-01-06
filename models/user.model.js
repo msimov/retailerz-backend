@@ -10,7 +10,7 @@ const User = function(user) {
 
 User.create = (newUser, result) => {
     sql.query(
-        `INSERT INTO users (id, first_name, last_name, email, type) VALUES (?, ?, ?, ?, ?)`,
+        `INSERT INTO users (id, firstName, lastName, email, type) VALUES (?, ?, ?, ?, ?)`,
         [newUser.id, newUser.firstName, newUser.lastName, newUser.email, newUser.type],
         (err, res) => {
             if(err) {
@@ -65,7 +65,7 @@ User.getAll = result => {
 
 User.updateById = (id, user, result) => {
     sql.query(
-        `UPDATE users SET first_name = ?, last_name = ?, email = ? WHERE id = ?`,
+        `UPDATE users SET firstName = ?, lastName = ?, email = ? WHERE id = ?`,
         [user.firstName, user.lastName, user.email, id],
         (err, res) => {
             if(err) {

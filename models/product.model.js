@@ -16,7 +16,7 @@ const Product = function(product) {
 
 Product.create = (userId, newProduct, result) => {
     sql.query(
-         `INSERT INTO products (products.name, products.group, products.description, products.code, products.barcode, products.measure_unit, products.tax_group, products.retail_price, products.delivery_price, products.expiry_date, products.store, products.user) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, STR_TO_DATE(?, "%Y-%m-%d"), ?, ?)`,
+         `INSERT INTO products (products.name, products.group, products.description, products.code, products.barcode, products.measureUnit, products.taxGroup, products.retailPrice, products.deliveryPrice, products.expiryDate, products.store, products.user) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, STR_TO_DATE(?, "%Y-%m-%d"), ?, ?)`,
         [
             newProduct.name, newProduct.group, newProduct.description, newProduct.code,
             newProduct.barcode, newProduct.measureUnit, newProduct.taxGroup, newProduct.retailPrice,
@@ -76,7 +76,7 @@ Product.getAll = (userId, result) => {
 
 Product.updateById = (userId, productId, product, result) => {
     sql.query(
-        `UPDATE products SET name = ?, products.group = ?, description = ?, products.code = ?, barcode = ?, measure_unit = ?, tax_group = ?, retail_price = ?, delivery_price = ?, expiry_date = ?, store = ? WHERE user = ? AND id = ?`,
+        `UPDATE products SET name = ?, products.group = ?, description = ?, products.code = ?, barcode = ?, measureUnit = ?, taxGroup = ?, retailPrice = ?, deliveryPrice = ?, expiryDate = ?, store = ? WHERE user = ? AND id = ?`,
         [
             newProduct.name, newProduct.group, newProduct.description, newProduct.code,
             newProduct.barcode, newProduct.measureUnit, newProduct.taxGroup, newProduct.retailPrice,
@@ -112,8 +112,8 @@ Product.deleteById = (userId, productId, result) => {
                 result({ kind: "not_found" }, null);
                 return;
             }
-            console.log("Deleted product with id: ", id);
-            result(null, id);
+            console.log("Deleted product with id: ", productId);
+            result(null, productId);
         }
     );
 }
