@@ -74,7 +74,7 @@ Product.getAll = (userId, result) => {
     );
 };
 
-Product.updateById = (userId, productId, product, result) => {
+Product.updateById = (userId, productId, newProduct, result) => {
     sql.query(
         `UPDATE products SET name = ?, products.group = ?, description = ?, products.code = ?, barcode = ?, measureUnit = ?, taxGroup = ?, retailPrice = ?, deliveryPrice = ?, expiryDate = ?, store = ? WHERE user = ? AND id = ?`,
         [
@@ -93,8 +93,8 @@ Product.updateById = (userId, productId, product, result) => {
                 return;
             }
 
-            console.log("Updated product: ", { id: id, ...product });
-            result(null, { id: id, ...product });
+            console.log("Updated product: ", { id: productId, ...newProduct });
+            result(null, { id: productId, ...newProduct });
         });
 };
 

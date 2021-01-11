@@ -6,7 +6,7 @@ const Group = function(group) {
 
 Group.create = (userId, newGroup, result) => {
     sql.query(
-        `INSERT INTO groups (user , name) VALUES (?, ?)`,
+        `INSERT INTO retailerz.groups (user , name) VALUES (?, ?)`,
         [userId, newGroup.name],
         (err, res) => {
             if(err) {
@@ -23,7 +23,7 @@ Group.create = (userId, newGroup, result) => {
 
 Group.findById = (userId, groupId, result) => {
     sql.query(
-        `SELECT * FROM groups WHERE user = ? AND id = ?`,
+        `SELECT * FROM retailerz.groups WHERE user = ? AND id = ?`,
         [userId, groupId],
         (err, res) => {
             if(err) {
@@ -62,7 +62,7 @@ Group.getAll = (userId, result) => {
 
 Group.updateById = (userId, groupId, group, result) => {
     sql.query(
-        `UPDATE groups SET name = ? WHERE user = ? AND id = ?`,
+        `UPDATE retailerz.groups SET name = ? WHERE user = ? AND id = ?`,
         [group.name, userId, groupId],
         (err, res) => {
             if(err) {
@@ -83,7 +83,7 @@ Group.updateById = (userId, groupId, group, result) => {
 
 Group.deleteById = (userId, groupId, result) => {
     sql.query(
-        `DELETE FROM groups WHERE user = ? AND id = ?`,
+        `DELETE FROM retailerz.groups WHERE user = ? AND id = ?`,
         [userId, groupId],
         (err, res) => {
             if(err) {
@@ -96,7 +96,7 @@ Group.deleteById = (userId, groupId, result) => {
                 return;
             }
             console.log("Deleted group with id: ", groupId, " for user ", userId);
-            result(null, id);
+            result(null, groupId);
         }
     );
 }

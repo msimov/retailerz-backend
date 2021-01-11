@@ -82,7 +82,7 @@ MeasureUnit.updateById = (userId, measureUnitId, measureUnit, result) => {
 
 MeasureUnit.deleteById = (userId, measureUnitId, result) => {
     sql.query(
-        `DELETE FROM measure_unites WHERE user = ? AND id = ?`,
+        `DELETE FROM measure_units WHERE user = ? AND id = ?`,
         [userId, measureUnitId],
         (err, res) => {
             if(err) {
@@ -95,7 +95,7 @@ MeasureUnit.deleteById = (userId, measureUnitId, result) => {
                 return;
             }
             console.log("Deleted measure unit with id: ", measureUnitId, " for user ", userId);
-            result(null, id);
+            result(null, measureUnitId);
         }
     );
 }
