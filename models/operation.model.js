@@ -8,7 +8,7 @@ const Operation = function(operation) {
 
 Operation.create = (userId, newOperation, result) => {
     sql.query(
-        `INSERT INTO operations (user, product, operation, count) VALUES (?, ?, ?, ?)`,
+        `INSERT INTO operations (user, product, operationType, count) VALUES (?, ?, ?, ?)`,
         [userId, newOperation.product, newOperation.operationType, newOperation.count],
         (err, res) => {
             if(err) {
@@ -63,7 +63,7 @@ Operation.getAll = (userId, result) => {
 
 Operation.updateById = (userId, operationId, operation, result) => {
     sql.query(
-        `UPDATE operations SET count = ?, product = ?, operation = ? WHERE user = ? AND id = ?`,
+        `UPDATE operations SET count = ?, product = ?, operationType = ? WHERE user = ? AND id = ?`,
         [operation.count, operation.product, operation.operationType, userId, operationId],
         (err, res) => {
             if(err) {

@@ -10,17 +10,15 @@ const Product = function(product) {
     this.taxGroup = product.taxGroup;
     this.retailPrice = product.retailPrice;
     this.deliveryPrice = product.deliveryPrice;
-    this.expiryDate = product.expiryDate;
-    this.store = product.store;
 };
 
 Product.create = (userId, newProduct, result) => {
     sql.query(
-         `INSERT INTO products (products.name, products.group, products.description, products.code, products.barcode, products.measureUnit, products.taxGroup, products.retailPrice, products.deliveryPrice, products.expiryDate, products.store, products.user) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, STR_TO_DATE(?, "%Y-%m-%d"), ?, ?)`,
+         `INSERT INTO products (products.name, products.group, products.description, products.code, products.barcode, products.measureUnit, products.taxGroup, products.retailPrice, products.deliveryPrice, products.user) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         [
             newProduct.name, newProduct.group, newProduct.description, newProduct.code,
             newProduct.barcode, newProduct.measureUnit, newProduct.taxGroup, newProduct.retailPrice,
-            newProduct.deliveryPrice, newProduct.expiryDate, newProduct.store, userId
+            newProduct.deliveryPrice, userId
         ],
         (err, res) => {
             if(err) {
@@ -76,11 +74,11 @@ Product.getAll = (userId, result) => {
 
 Product.updateById = (userId, productId, newProduct, result) => {
     sql.query(
-        `UPDATE products SET name = ?, products.group = ?, description = ?, products.code = ?, barcode = ?, measureUnit = ?, taxGroup = ?, retailPrice = ?, deliveryPrice = ?, expiryDate = ?, store = ? WHERE user = ? AND id = ?`,
+        `UPDATE products SET name = ?, products.group = ?, description = ?, products.code = ?, barcode = ?, measureUnit = ?, taxGroup = ?, retailPrice = ?, deliveryPrice = ? WHERE user = ? AND id = ?`,
         [
             newProduct.name, newProduct.group, newProduct.description, newProduct.code,
             newProduct.barcode, newProduct.measureUnit, newProduct.taxGroup, newProduct.retailPrice,
-            newProduct.deliveryPrice, newProduct.expiryDate, newProduct.store, userId, productId
+            newProduct.deliveryPrice, userId, productId
         ],
         (err, res) => {
             if(err) {
