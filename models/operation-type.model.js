@@ -16,7 +16,6 @@ OperationType.findById = (operationTypeId, result) => {
             }
 
             if(res.length) {
-                console.log("Found operation type: ", res[0]);
                 result(null, res[0]);
                 return;
             }
@@ -35,8 +34,7 @@ OperationType.getAll = result => {
                 result(err, null);
                 return;
             }
-            
-            console.log("Operation Types: ", res);
+
             result(null, res);
         }
     );

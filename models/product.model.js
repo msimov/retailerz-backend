@@ -26,8 +26,6 @@ Product.create = (userId, newProduct, result) => {
                 result(err, null);
                 return;
             }
-
-            console.log("Created product: ", { id: res.insertId, ...newProduct });
             result(null, { id: res.insertId, ...newProduct });
         }
     );
@@ -45,7 +43,6 @@ Product.findById = (userId, productId, result) => {
             }
 
             if(res.length) {
-                console.log("Found product: ", res[0]);
                 result(null, res[0]);
                 return;
             }
@@ -65,8 +62,6 @@ Product.getAll = (userId, result) => {
                 result(err, null);
                 return;
             }
-            
-            console.log("Products: ", res);
             result(null, res);
         }
     );
@@ -90,8 +85,6 @@ Product.updateById = (userId, productId, newProduct, result) => {
                 result({ kind: "not_found" }, null);
                 return;
             }
-
-            console.log("Updated product: ", { id: productId, ...newProduct });
             result(null, { id: productId, ...newProduct });
         });
 };
@@ -110,7 +103,6 @@ Product.deleteById = (userId, productId, result) => {
                 result({ kind: "not_found" }, null);
                 return;
             }
-            console.log("Deleted product with id: ", productId);
             result(null, productId);
         }
     );

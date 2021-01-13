@@ -18,8 +18,6 @@ User.create = (newUser, result) => {
                 result(err, null);
                 return;
             }
-
-            console.log("Created user: ", { id: res.insertId, ...newUser });
             result(null, { id: res.insertId, ...newUser });
         }
     );
@@ -37,7 +35,6 @@ User.findById = (userId, result) => {
             }
 
             if(res.length) {
-                console.log("Found user: ", res[0]);
                 result(null, res[0]);
                 return;
             }
@@ -56,8 +53,6 @@ User.getAll = result => {
                 result(err, null);
                 return;
             }
-            
-            console.log("Users: ", res);
             result(null, res);
         }
     );
@@ -77,8 +72,6 @@ User.updateById = (id, user, result) => {
                 result({ kind: "not_found" }, null);
                 return;
             }
-
-            console.log("Updated user: ", { id: id, ...user });
             result(null, { id: id, ...user });
         }
     );
@@ -98,7 +91,6 @@ User.deleteById = (id, result) => {
                 result({ kind: "not_found" }, null);
                 return;
             }
-            console.log("Deleted user with id: ", id);
             result(null, id);
         }
     );

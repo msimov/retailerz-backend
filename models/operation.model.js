@@ -16,7 +16,6 @@ Operation.create = (userId, newOperation, result) => {
                 result(err, null);
                 return;
             }
-            console.log("Created operation: ", {id: res.insertId, ...newOperation}, " for user: ", userId);
             result(null, { id: res.insertId, ...newOperation });
         }
     );
@@ -34,7 +33,6 @@ Operation.findById = (userId, operationId, result) => {
             }
 
             if(res.length) {
-                console.log("Found OPERATION: ", res[0], " for user: ", userId);
                 result(null, res[0]);
                 return;
             }
@@ -54,8 +52,6 @@ Operation.getAll = (userId, result) => {
                 result(err, null);
                 return;
             }
-            
-            console.log("Found Operations: ", res, " for user: ", userId);
             result(null, res);
         }
     );
@@ -75,8 +71,6 @@ Operation.updateById = (userId, operationId, operation, result) => {
                 result({ kind: "not_found" }, null);
                 return;
             }
-
-            console.log("Updated operation: ", {id: operationId, ...operation}, " for user: ", userId);
             result(null, { operationId, ...operation });
         }
     );
@@ -96,7 +90,6 @@ Operation.deleteById = (userId, operationId, result) => {
                 result({ kind: "not_found" }, null);
                 return;
             }
-            console.log("Deleted operation with id: ", operationId, " for user ", userId);
             result(null, id);
         }
     );

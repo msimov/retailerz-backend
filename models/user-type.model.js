@@ -16,7 +16,6 @@ UserType.findById = (userTypeId, result) => {
             }
 
             if(res.length) {
-                console.log("Found user type: ", res[0]);
                 result(null, res[0]);
                 return;
             }
@@ -35,8 +34,6 @@ UserType.getAll = result => {
                 result(err, null);
                 return;
             }
-            
-            console.log("User Types: ", res);
             result(null, res);
         }
     );

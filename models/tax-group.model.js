@@ -16,7 +16,6 @@ TaxGroup.findById = (taxGroupId, result) => {
             }
 
             if(res.length) {
-                console.log("Found tax group: ", res[0]);
                 result(null, res[0]);
                 return;
             }
@@ -35,8 +34,6 @@ TaxGroup.getAll = result => {
                 result(err, null);
                 return;
             }
-            
-            console.log("Tax groups: ", res);
             result(null, res);
         }
     );

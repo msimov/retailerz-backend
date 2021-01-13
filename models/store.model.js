@@ -14,8 +14,6 @@ Store.create = (userId, newStore, result) => {
                 result(err, null);
                 return;
             }
-
-            console.log("Created store: ", {id: res.insertId, ...newStore}, " for user: ", userId);
             result(null, { id: res.insertId, ...newStore });
         }
     );
@@ -33,7 +31,6 @@ Store.findById = (userId, storeId, result) => {
             }
 
             if(res.length) {
-                console.log("Found store: ", res[0], " for user: ", userId);
                 result(null, res[0]);
                 return;
             }
@@ -53,8 +50,6 @@ Store.getAll = (userId, result) => {
                 result(err, null);
                 return;
             }
-            
-            console.log("Found Stores: ", res, " for user: ", userId);
             result(null, res);
         }
     );
@@ -74,8 +69,6 @@ Store.updateById = (userId, storeId, store, result) => {
                 result({ kind: "not_found" }, null);
                 return;
             }
-
-            console.log("Updated store: ", {id: storeId, ...store}, " for user: ", userId);
             result(null, { storeId: storeId, ...store });
         }
     );
@@ -95,7 +88,6 @@ Store.deleteById = (userId, storeId, result) => {
                 result({ kind: "not_found" }, null);
                 return;
             }
-            console.log("Deleted store with id: ", storeId, " for user ", userId);
             result(null, storeId);
         }
     );

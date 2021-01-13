@@ -14,8 +14,6 @@ Group.create = (userId, newGroup, result) => {
                 result(err, null);
                 return;
             }
-
-            console.log("Created group: ", {id: res.insertId, ...newGroup}, " for user: ", userId);
             result(null, { id: res.insertId, ...newGroup });
         }
     );
@@ -33,7 +31,6 @@ Group.findById = (userId, groupId, result) => {
             }
 
             if(res.length) {
-                console.log("Found group: ", res[0], " for user: ", userId);
                 result(null, res[0]);
                 return;
             }
@@ -53,8 +50,6 @@ Group.getAll = (userId, result) => {
                 result(err, null);
                 return;
             }
-            
-            console.log("Found groups: ", res, " for user: ", userId);
             result(null, res);
         }
     );
@@ -74,8 +69,6 @@ Group.updateById = (userId, groupId, group, result) => {
                 result({ kind: "not_found" }, null);
                 return;
             }
-
-            console.log("Updated group: ", {id: groupId, ...group}, " for user: ", userId);
             result(null, { groupId, ...group });
         }
     );
@@ -95,7 +88,6 @@ Group.deleteById = (userId, groupId, result) => {
                 result({ kind: "not_found" }, null);
                 return;
             }
-            console.log("Deleted group with id: ", groupId, " for user ", userId);
             result(null, groupId);
         }
     );

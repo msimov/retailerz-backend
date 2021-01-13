@@ -14,8 +14,6 @@ MeasureUnit.create = (userId, newMeasureUnit, result) => {
                 result(err, null);
                 return;
             }
-
-            console.log("Created measure unit: ", {id: res.insertId, ...newMeasureUnit}, " for user: ", userId);
             result(null, { id: res.insertId, ...newMeasureUnit });
         }
     );
@@ -33,7 +31,6 @@ MeasureUnit.findById = (userId, measureUnitId, result) => {
             }
 
             if(res.length) {
-                console.log("Found measure unit: ", res[0], " for user: ", userId);
                 result(null, res[0]);
                 return;
             }
@@ -53,7 +50,6 @@ MeasureUnit.getAll = (userId, result) => {
                 result(err, null);
                 return;
             }
-            console.log("Found Measure Units: ", res, " for user: ", userId);
             result(null, res);
         }
     );
@@ -73,8 +69,6 @@ MeasureUnit.updateById = (userId, measureUnitId, measureUnit, result) => {
                 result({ kind: "not_found" }, null);
                 return;
             }
-
-            console.log("Updated measure unit: ", {id: measureUnitId, ...measureUnit}, " for user: ", userId);
             result(null, { measureUnitId, ...measureUnit });
         }
     );
@@ -94,7 +88,6 @@ MeasureUnit.deleteById = (userId, measureUnitId, result) => {
                 result({ kind: "not_found" }, null);
                 return;
             }
-            console.log("Deleted measure unit with id: ", measureUnitId, " for user ", userId);
             result(null, measureUnitId);
         }
     );
