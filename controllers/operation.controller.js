@@ -8,8 +8,9 @@ exports.create = (req, res) => {
     }
 
     const operation = new Operation({
-        product: req.body.product,
         operationType: req.body.operationType,
+        store: req.body.store,
+        product: req.body.product,
         count: req.body.count
     });
 
@@ -66,8 +67,9 @@ exports.updateById = (req, res) => {
     }
 
     const operation = new Operation({
-        product: req.body.product,
         operationType: req.body.operationType,
+        store: req.body.store,
+        product: req.body.product,
         count: req.body.count
     });
 

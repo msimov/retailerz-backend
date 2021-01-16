@@ -1,15 +1,16 @@
 const sql = require('./db');
 
 const Operation = function(operation) {
-    this.product = operation.product;
     this.operationType = operation.operationType;
+    this.store = operation.store;
+    this.product = operation.product;
     this.count = operation.count;
 };
 
 Operation.create = (userId, newOperation, result) => {
     sql.query(
-        `INSERT INTO operations (user, product, operationType, count) VALUES (?, ?, ?, ?)`,
-        [userId, newOperation.product, newOperation.operationType, newOperation.count],
+        `INSERT INTO operations (user, store, product, operationType, count) VALUES (?, ?, ?, ?, ?)`,
+        [userId, newOperation.store, newOperation.product, newOperation.operationType, newOperation.count],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
@@ -59,8 +60,8 @@ Operation.getAll = (userId, result) => {
 
 Operation.updateById = (userId, operationId, operation, result) => {
     sql.query(
-        `UPDATE operations SET count = ?, product = ?, operationType = ? WHERE user = ? AND id = ?`,
-        [operation.count, operation.product, operation.operationType, userId, operationId],
+        `UPDATE operations SET count = ?, product = ?, operationType = ?, store = ? WHERE user = ? AND id = ?`,
+        [operation.count, operation.product, operation.operationType, operation.store, userId, operationId],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
