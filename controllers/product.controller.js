@@ -46,6 +46,28 @@ exports.findById = (req, res) => {
     );
 };
 
+exports.findByKeyword = (req, res) => {
+    Product.findByKeyword(
+        req.query.keyword,
+        (err, data) => {
+            if(err) {
+                if(err.kind === "not_found") {
+                    res.status(400).send({
+                        message: `Product not found by keyword ${req.query.keyword}.`
+                    });
+                } else {
+                    res.status(500).send({
+                        message:
+                            err.message || `An error occurred while getting product by keyword ${req.query.keyword}.`
+                    });
+                }
+            } else {
+                res.send(data);
+            }
+        }
+    );
+};
+
 exports.getAll = (req, res) => {
     Product.getAll(
         req.params.userId,

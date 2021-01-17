@@ -58,6 +58,18 @@ exports.getAll = (req, res) => {
     });
 };
 
+exports.getAllByOperationType = (req, res) => {
+    Operation.getAllByOperationType(req.params.userId, req.body.operationType, (res, data) => {
+        if(err) {
+            res.status(500).send({
+                message:
+                    err.message || "An error occurred while getting the operations."
+            });
+        } else {
+            res.send(data);
+        }
+    });
+}
 
 exports.updateById = (req, res) => {
     if (!req.body) {

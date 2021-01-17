@@ -58,6 +58,21 @@ Operation.getAll = (userId, result) => {
     );
 };
 
+Operation.getAllByOperationType = (userId, operationType, result) => {
+    sql.query(
+        "SELECT * FROM operations WHERE user = ? AND operationType = ?",
+        [userId, operationType],
+        (err, res) => {
+            if(err) {
+                console.log("Error: ", err);
+                result(err, null);
+                return;
+            }
+            result(null, res);
+        }
+    );
+};
+
 Operation.updateById = (userId, operationId, operation, result) => {
     sql.query(
         `UPDATE operations SET count = ?, product = ?, operationType = ?, store = ? WHERE user = ? AND id = ?`,
@@ -91,7 +106,7 @@ Operation.deleteById = (userId, operationId, result) => {
                 result({ kind: "not_found" }, null);
                 return;
             }
-            result(null, id);
+            result(null, operationId)   ;
         }
     );
 }

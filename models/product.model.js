@@ -52,6 +52,20 @@ Product.findById = (userId, productId, result) => {
     );
 };
 
+Product.findByKeyword = (keyWord, result) => {
+    sql.query(
+        `SELECT * FROM products WHERE id LIKE "%${keyWord}%" OR products.group LIKE "%${keyWord}%" OR barcode LIKE "%${keyWord}%" OR name LIKE "%${keyWord}%" OR description LIKE "%${keyWord}%" OR products.user LIKE "%${keyWord}%"`,
+        (err, res) => {
+            if(err) {
+                console.log("Error: ", err);
+                result(err, null);
+                return;
+            }
+            result(null, res);
+        }
+    );
+};
+
 Product.getAll = (userId, result) => {
     sql.query(
         "SELECT * FROM products WHERE user = ?",

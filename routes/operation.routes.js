@@ -7,6 +7,8 @@ module.exports = app => {
 
     app.get("/users/:userId/operations", operations.getAll);
 
+    app.get("/users/:userId/operations", operations.getAllByOperationType);
+
     app.put("/users/:userId/operations/:operationId", operations.updateById);
 
     app.delete("/users/:userId/operations/:operationId", operations.deleteById);
