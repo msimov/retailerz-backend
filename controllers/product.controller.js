@@ -9,12 +9,12 @@ exports.create = (req, res) => {
 
     Product.create(
         req.params.userId,
-        new Product(req.body),
+        req.body,
         (err, data) => {
             if(err) {
                 res.status(500).send({
                     message: 
-                        err.message || "An error occurred while creating the product."
+                        err.message || "Error."
                 });
             } else {
                 res.send(data);
@@ -23,20 +23,19 @@ exports.create = (req, res) => {
     );
 };
 
-exports.findById = (req, res) => {
-    Product.findById(
-        req.params.userId,
+exports.findByProductId = (req, res) => {
+    Product.findByProductId(
         req.params.productId,
         (err, data) => {
             if(err) {
                 if(err.kind === "not_found") {
                     res.status(400).send({
-                        message: `Product with id ${req.params.productId} not found.`
+                        message: "Error."
                     });
                 } else {
                     res.status(500).send({
                         message:
-                            err.message || `An error occurred while getting product with id ${req.params.productId}.`
+                            err.message || "Error."
                     });
                 }
             } else {
@@ -53,12 +52,12 @@ exports.findByKeyword = (req, res) => {
             if(err) {
                 if(err.kind === "not_found") {
                     res.status(400).send({
-                        message: `Product not found by keyword ${req.query.keyword}.`
+                        message: "Error."
                     });
                 } else {
                     res.status(500).send({
                         message:
-                            err.message || `An error occurred while getting product by keyword ${req.query.keyword}.`
+                            err.message || "Error."
                     });
                 }
             } else {
@@ -68,14 +67,14 @@ exports.findByKeyword = (req, res) => {
     );
 };
 
-exports.getAll = (req, res) => {
-    Product.getAll(
+exports.getAllByUserId = (req, res) => {
+    Product.getAllByUserId(
         req.params.userId,
         (err, data) => {
         if(err) {
             res.status(500).send({
                 message:
-                    err.message || "An error occurred while getting the products."
+                    err.message || "Error."
             });
         } else {
             res.send(data);
@@ -83,27 +82,25 @@ exports.getAll = (req, res) => {
     });
 };
 
-exports.updateById = (req, res) => {
+exports.updateByProductId = (req, res) => {
     if (!req.body) {
         res.status(400).send({
             message: "Content can not be empty."
         });
     }
-
-    Product.updateById(
-        req.params.userId,
+    Product.updateByProductId(
         req.params.productId,
-        new Product(req.body),
+        req.body,
         (err, data) => {
             if(err) {
                 if(err.kind === "not_found") {
                     res.status(400).send({
-                        message: `Product with id ${req.params.productId} not found.`
+                        message: "Error."
                     });
                 } else {
                     res.status(400).send({
                         message:
-                        err.message || `An error occurred while updating product with id ${req.params.productId}.`
+                        err.message || "Error."
                     });
                 }
             } else {
@@ -113,19 +110,18 @@ exports.updateById = (req, res) => {
     )
 };
 
-exports.deleteById = (req, res) => {
-    Product.deleteById(
-        req.params.userId,
+exports.deleteByProductId = (req, res) => {
+    Product.deleteByProductId(
         req.params.productId,
         (err, data) => {
             if(err) {
                 if(err.kind === "not_found") {
                     res.status(404).send({
-                        message: `Product with id ${req.params.productId} not found.`
+                        message: "Error."
                     })
                 } else {
                     res.status(500).send({
-                        message: err.message || `An error occurred while deleting product with id ${req.params.productId}.`
+                        message: err.message || "Error."
                     });
                 }
             } else {

@@ -7,79 +7,79 @@ exports.create = (req, res) => {
         });
     }
 
-    const store = new Store({
-        location: req.body.location,
-    });
-
-    Store.create(req.params.userId, store, (err, data) => {
-        if(err) {
-            res.status(500).send({
-                message: 
-                    err.message || "An error occurred while creating the store."
-            });
-        } else {
-            res.send(data);
-        }
-    });
-};
-
-exports.findById = (req, res) => {
-    Store.findById(req.params.userId, req.params.storeId, (err, data) => {
-        if(err) {
-            if(err.kind === "not_found") {
-                res.status(400).send({
-                    message: `Store with id ${req.params.storeId} not found.`
+    Store.create(
+        req.params.userId,
+        req.body,
+        (err, data) => {
+            if(err) {
+                res.status(500).send({
+                    message: 
+                        err.message || "Error."
                 });
             } else {
+                res.send(data);
+            }
+        }
+    );
+};
+
+exports.findByStoreId = (req, res) => {
+    Store.findByStoreId(
+        req.params.storeId,
+        (err, data) => {
+            if(err) {
+                if(err.kind === "not_found") {
+                    res.status(400).send({
+                        message: "Error."
+                    });
+                } else {
+                    res.status(500).send({
+                        message:
+                            err.message || "Error."
+                    });
+                }
+            } else {
+                res.send(data);
+            }
+        }
+    );
+};
+
+exports.getAllByUserId = (req, res) => {
+    Store.getAllByUserId(
+        req.params.userId,
+        (err, data) => {
+            if(err) {
                 res.status(500).send({
                     message:
-                        err.message || `An error occurred while getting store with id ${req.params.storeId}.`
+                        err.message || "Error."
                 });
+            } else {
+                res.send(data);
             }
-        } else {
-            res.send(data);
         }
-    });
+    );
 };
 
-exports.getAll = (req, res) => {
-    Store.getAll(req.params.userId, (err, data) => {
-        if(err) {
-            res.status(500).send({
-                message:
-                    err.message || "An error occurred while getting the stores."
-            });
-        } else {
-            res.send(data);
-        }
-    });
-};
-
-exports.updateById = (req, res) => {
+exports.updateByStoreId = (req, res) => {
     if (!req.body) {
         res.status(400).send({
             message: "Content can not be empty."
         });
     }
-
-    const store = new Store({
-        location: req.body.location,
-    });
-
-    Store.updateById(
-        req.params.userId,
+    Store.updateByStoreId(
         req.params.storeId,
-        store,
+        req.body,
         (err, data) => {
             if(err) {
                 if(err.kind === "not_found") {
                     res.status(400).send({
-                        message: `Store with id ${req.params.storeId} not found.`
+                        message: "Error."
                     });
                 } else {
                     res.status(400).send({
                         message:
-                        err.message || `An error occurred while updating store with id ${req.params.storeId}.`
+                        err.message || "Error."
                     });
                 }
             } else {
@@ -89,20 +89,23 @@ exports.updateById = (req, res) => {
     )
 }
 
-exports.deleteById = (req, res) => {
-    Store.deleteById(req.params.userId, req.params.storeId, (err, data) => {
-        if(err) {
-            if(err.kind === "not_found") {
-                res.status(404).send({
-                    message: `Store with id ${req.params.storeId} not found.`
-                })
+exports.deleteByStoreId = (req, res) => {
+    Store.deleteByStoreId(
+        req.params.storeId,
+        (err, data) => {
+            if(err) {
+                if(err.kind === "not_found") {
+                    res.status(404).send({
+                        message: "Error."
+                    })
+                } else {
+                    res.status(500).send({
+                        message: err.message || "Error."
+                    });
+                }
             } else {
-                res.status(500).send({
-                    message: err.message || `An error occurred while deleting store with id ${req.params.storeId}.`
-                });
+                res.send(data);
             }
-        } else {
-            res.send(data);
         }
-    });
+    );
 }

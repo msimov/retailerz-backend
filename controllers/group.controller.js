@@ -6,81 +6,80 @@ exports.create = (req, res) => {
             message: "Content can not be empty."
         });
     }
-
-    const group = new Group({
-        name: req.body.name,
-    });
-
-    Group.create(req.params.userId, group, (err, data) => {
-        if(err) {
-            res.status(500).send({
-                message: 
-                    err.message || "An error occurred while creating the group."
-            });
-        } else {
-            res.send(data);
-        }
-    });
-};
-
-exports.findById = (req, res) => {
-    Group.findById(req.params.groupId, (err, data) => {
-        if(err) {
-            if(err.kind === "not_found") {
-                res.status(400).send({
-                    message: `Group with id ${req.params.groupId} not found.`
+    Group.create(
+        req.params.userId, 
+        req.body, 
+        (err, data) => {
+            if(err) {
+                res.status(500).send({
+                    message: 
+                        err.message || "Error."
                 });
             } else {
+                res.send(data);
+            }
+        }
+    );
+};
+
+exports.findByGroupId = (req, res) => {
+    Group.findByGroupId(
+        req.params.groupId,
+        (err, data) => {
+            if(err) {
+                if(err.kind === "not_found") {
+                    res.status(400).send({
+                        message: "Error."
+                    });
+                } else {
+                    res.status(500).send({
+                        message:
+                            err.message || "Error."
+                    });
+                }
+            } else {
+                res.send(data);
+            }
+        }
+    );
+};
+
+exports.getAllByUserId = (req, res) => {
+    Group.getAllByUserId(
+        req.params.userId,
+        (err, data) => {
+            if(err) {
                 res.status(500).send({
                     message:
-                        err.message || `An error occurred while getting group with id ${req.params.groupId}.`
+                        err.message || "Error."
                 });
+            } else {
+                res.send(data);
             }
-        } else {
-            res.send(data);
         }
-    });
-};
-
-exports.getAll = (req, res) => {
-    Group.getAllByUserId(req.params.userId, (err, data) => {
-        if(err) {
-            res.status(500).send({
-                message:
-                    err.message || "An error occurred while getting the groups."
-            });
-        } else {
-            res.send(data);
-        }
-    });
+    );
 };
 
 
-exports.updateById = (req, res) => {
+exports.updateByGroupId = (req, res) => {
     if (!req.body) {
         res.status(400).send({
             message: "Content can not be empty."
         });
     }
-
-    const group = new Group({
-        name: req.body.name,
-    });
-
-    Group.updateById(
-        req.params.userId,
+    Group.updateByGroupId(
         req.params.groupId,
-        group,
+        req.body,
         (err, data) => {
             if(err) {
                 if(err.kind === "not_found") {
                     res.status(400).send({
-                        message: `Group with id ${req.params.groupId} not found.`
+                        message: "Error."
                     });
                 } else {
                     res.status(400).send({
                         message:
-                        err.message || `An error occurred while updating group with id ${req.params.groupId}.`
+                        err.message || "Error."
                     });
                 }
             } else {
@@ -90,20 +89,23 @@ exports.updateById = (req, res) => {
     )
 }
 
-exports.deleteById = (req, res) => {
-    Group.deleteById(req.params.userId, req.params.groupId, (err, data) => {
-        if(err) {
-            if(err.kind === "not_found") {
-                res.status(404).send({
-                    message: `Group with id ${req.params.groupId} not found.`
-                })
+exports.deleteByGroupId = (req, res) => {
+    Group.deleteByGroupId(
+        req.params.groupId,
+        (err, data) => {
+            if(err) {
+                if(err.kind === "not_found") {
+                    res.status(404).send({
+                        message: "Error."
+                    })
+                } else {
+                    res.status(500).send({
+                        message: err.message || "Error."
+                    });
+                }
             } else {
-                res.status(500).send({
-                    message: err.message || `An error occurred while deleting group with id ${req.params.groupId}.`
-                });
+                res.send(data);
             }
-        } else {
-            res.send(data);
         }
-    });
+    );
 }
