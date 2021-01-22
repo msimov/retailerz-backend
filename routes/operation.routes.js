@@ -3,13 +3,13 @@ module.exports = app => {
 
     app.post("/users/:userId/operations", operations.create);
 
-    app.get("/users/:userId/operations/:operationId", operations.findById);
+    app.get("/operations/:operationId", operations.findByOperationId);
 
-    app.get("/users/:userId/operations", operations.getAll);
+    app.get("/users/:userId/operations", operations.getAllByUserId);
 
-    app.get("/users/:userId/operations", operations.getAllByOperationType);
+    app.get("/users/:userId/operations", operations.getAllByUserIdAndOperationTypeId);
 
-    app.put("/users/:userId/operations/:operationId", operations.updateById);
+    app.put("/operations/:operationId", operations.updateByOperationId);
 
-    app.delete("/users/:userId/operations/:operationId", operations.deleteById);
+    app.delete("/operations/:operationId", operations.deleteByOperationId);
 }

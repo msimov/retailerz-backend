@@ -3,11 +3,11 @@ module.exports = app => {
 
     app.post("/users/:userId/stores", stores.create);
 
-    app.get("/users/:userId/stores/:storeId", stores.findById);
+    app.get("/stores/:storeId", stores.findByStoreId);
 
-    app.get("/users/:userId/stores", stores.getAll);
+    app.get("/users/:userId/stores", stores.getAllByUserId);
 
-    app.put("/users/:userId/stores/:storeId", stores.updateById);
+    app.put("/stores/:storeId", stores.updateByStoreId);
 
-    app.delete("/users/:userId/stores/:storeId", stores.deleteById);
+    app.delete("/stores/:storeId", stores.deleteByStoreId);
 }

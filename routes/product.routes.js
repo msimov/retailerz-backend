@@ -5,11 +5,11 @@ module.exports = app => {
 
     app.post("/users/:userId/products", products.create);
 
-    app.get("/users/:userId/products/:productId", products.findById);
+    app.get("/products/:productId", products.findByProductId);
 
-    app.get("/users/:userId/products", products.getAll);
+    app.get("/users/:userId/products", products.getAllByUserId);
 
-    app.put("/users/:userId/products/:productId", products.updateById);
+    app.put("/products/:productId", products.updateByProductId);
 
-    app.delete("/users/:userId/products/:productId", products.deleteById);
+    app.delete("/products/:productId", products.deleteByProductId);
 }

@@ -3,11 +3,11 @@ module.exports = app => {
 
     app.post("/users/:userId/groups", groups.create);
 
-    app.get("/users/:userId/groups/:groupId", groups.findById);
+    app.get("/groups/:groupId", groups.findByGroupId);
 
-    app.get("/users/:userId/groups", groups.getAll);
+    app.get("/users/:userId/groups", groups.getAllByUserId);
 
-    app.put("/users/:userId/groups/:groupId", groups.updateById);
+    app.put("/groups/:groupId", groups.updateByGroupId);
 
-    app.delete("/users/:userId/groups/:groupId", groups.deleteById);
+    app.delete("/groups/:groupId", groups.deleteByGroupId);
 }
