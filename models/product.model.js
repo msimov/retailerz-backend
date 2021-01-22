@@ -54,7 +54,7 @@ Product.findByProductId = (productId, result) => {
 
 Product.findByKeyword = (keyword, result) => {
     sql.query(
-        FIND_BY_KEYOWОRD,
+        FIND_BY_KEYOWОRD(keyword),
         keyword,
         (err, res) => {
             if(err) {

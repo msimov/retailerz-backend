@@ -42,7 +42,7 @@ ON productsTable.tax_group_id = taxGroupsTable.id \
 WHERE productsTable.id = ?\
 `
 
-exports.FIND_BY_KEYOWОRD = `\
+exports.FIND_BY_KEYOWОRD = (keyword) => `\
 SELECT ${this.COLUMNS}, ${USER_COLUMNS}, ${GROUP_COLUMNS}, ${MEASURE_UNIT_COLUMNS}, ${TAX_GROUP_COLUMNS} \
 FROM retailerz.products AS productsTable \
 LEFT JOIN retailerz.users AS usersTable \
