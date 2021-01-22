@@ -24,7 +24,7 @@ exports.create = (req, res) => {
 };
 
 exports.findById = (req, res) => {
-    Group.findById(req.params.userId, req.params.groupId, (err, data) => {
+    Group.findById(req.params.groupId, (err, data) => {
         if(err) {
             if(err.kind === "not_found") {
                 res.status(400).send({
@@ -43,7 +43,7 @@ exports.findById = (req, res) => {
 };
 
 exports.getAll = (req, res) => {
-    Group.getAll(req.params.userId, (err, data) => {
+    Group.getAllByUserId(req.params.userId, (err, data) => {
         if(err) {
             res.status(500).send({
                 message:

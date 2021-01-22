@@ -1,3 +1,4 @@
+const { CREATE, FIND_BY_USER_ID, GET_ALL, UPDATE_BY_USER_ID, DELETE_BY_USER_ID } = require('../constants/user.constants');
 const sql = require('./db');
 
 const User = function(user) {
@@ -10,7 +11,7 @@ const User = function(user) {
 
 User.create = (newUser, result) => {
     sql.query(
-        `INSERT INTO users (id, firstName, lastName, email, type) VALUES (?, ?, ?, ?, ?)`,
+        CREATE,
         [newUser.id, newUser.firstName, newUser.lastName, newUser.email, newUser.type],
         (err, res) => {
             if(err) {
@@ -25,7 +26,7 @@ User.create = (newUser, result) => {
 
 User.findById = (userId, result) => {
     sql.query(
-        `SELECT * FROM users WHERE id = ?`,
+        FIND_BY_USER_ID,
         userId,
         (err, res) => {
             if(err) {
@@ -46,7 +47,7 @@ User.findById = (userId, result) => {
 
 User.getAll = result => {
     sql.query(
-        "SELECT * FROM users",
+        GET_ALL,
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
@@ -60,7 +61,7 @@ User.getAll = result => {
 
 User.updateById = (id, user, result) => {
     sql.query(
-        `UPDATE users SET firstName = ?, lastName = ?, email = ? WHERE id = ?`,
+        UPDATE_BY_USER_ID,
         [user.firstName, user.lastName, user.email, id],
         (err, res) => {
             if(err) {
@@ -79,8 +80,8 @@ User.updateById = (id, user, result) => {
 
 User.deleteById = (id, result) => {
     sql.query(
-        `DELETE FROM users WHERE id = ?`,
-         id,
+        DELETE_BY_USER_ID,
+        id,
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);

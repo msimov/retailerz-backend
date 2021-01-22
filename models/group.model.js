@@ -1,3 +1,4 @@
+const { CREATE, FIND_BY_GROUP_ID, GET_ALL_BY_USER_ID, UPDATE_BY_GROUP_ID, DELETE_BY_GROUP_ID } = require('../constants/group.constants');
 const sql = require('./db');
 
 const Group = function(group) {
@@ -6,7 +7,7 @@ const Group = function(group) {
 
 Group.create = (userId, newGroup, result) => {
     sql.query(
-        `INSERT INTO retailerz.groups (user , name) VALUES (?, ?)`,
+        CREATE,
         [userId, newGroup.name],
         (err, res) => {
             if(err) {
@@ -19,10 +20,10 @@ Group.create = (userId, newGroup, result) => {
     );
 };
 
-Group.findById = (userId, groupId, result) => {
+Group.findById = (id, result) => {
     sql.query(
-        `SELECT * FROM retailerz.groups WHERE user = ? AND id = ?`,
-        [userId, groupId],
+        FIND_BY_GROUP_ID,
+        id,
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
@@ -40,9 +41,9 @@ Group.findById = (userId, groupId, result) => {
     );
 };
 
-Group.getAll = (userId, result) => {
+Group.getAllByUserId = (userId, result) => {
     sql.query(
-        "SELECT * FROM retailerz.groups WHERE user = ?",
+        GET_ALL_BY_USER_ID,
         userId,
         (err, res) => {
             if(err) {
@@ -55,10 +56,10 @@ Group.getAll = (userId, result) => {
     );
 };
 
-Group.updateById = (userId, groupId, group, result) => {
+Group.updateById = (id, group, result) => {
     sql.query(
-        `UPDATE retailerz.groups SET name = ? WHERE user = ? AND id = ?`,
-        [group.name, userId, groupId],
+        UPDATE_BY_GROUP_ID,
+        [group.name, id],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
@@ -69,15 +70,15 @@ Group.updateById = (userId, groupId, group, result) => {
                 result({ kind: "not_found" }, null);
                 return;
             }
-            result(null, { groupId, ...group });
+            result(null, { id, ...group });
         }
     );
 };
 
-Group.deleteById = (userId, groupId, result) => {
+Group.deleteById = (id, result) => {
     sql.query(
-        `DELETE FROM retailerz.groups WHERE user = ? AND id = ?`,
-        [userId, groupId],
+        DELETE_BY_GROUP_ID,
+        id,
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
@@ -88,7 +89,7 @@ Group.deleteById = (userId, groupId, result) => {
                 result({ kind: "not_found" }, null);
                 return;
             }
-            result(null, groupId);
+            result(null, id);
         }
     );
 }
