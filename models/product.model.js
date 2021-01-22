@@ -1,24 +1,26 @@
+const { CREATE, FIND_BY_PRODUCT_ID, FIND_BY_KEYOWОRD, GET_ALL_BY_USER_ID, UPDATE_BY_PRODUCT_ID, DELETE_BY_PRODUCT_ID } = require('../constants/product.constants');
 const sql = require('./db');
 
 const Product = function(product) {
-    this.name = product.name;
-    this.group = product.group;
-    this.description = product.description;
+    this.productId = product.productId;
+    this.userId = product.userId;
+    this.groupId = product.groupId;
     this.code = product.code;
     this.barcode = product.barcode;
-    this.measureUnit = product.measureUnit;
-    this.taxGroup = product.taxGroup;
+    this.measureUnitId = product.measureUnitId;
+    this.taxGroupId = product.taxGroupId;
     this.retailPrice = product.retailPrice;
     this.deliveryPrice = product.deliveryPrice;
+    this.name = product.name;
+    this.description = product.description;
 };
 
-Product.create = (userId, newProduct, result) => {
+Product.create = (userId, product, result) => {
     sql.query(
-         `INSERT INTO products (products.name, products.group, products.description, products.code, products.barcode, products.measureUnit, products.taxGroup, products.retailPrice, products.deliveryPrice, products.user) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        CREATE,
         [
-            newProduct.name, newProduct.group, newProduct.description, newProduct.code,
-            newProduct.barcode, newProduct.measureUnit, newProduct.taxGroup, newProduct.retailPrice,
-            newProduct.deliveryPrice, userId
+            userId, product.groupId, product.code, product.barcode, product.measureUnitId, 
+            product.taxGroupId, product.retailPrice, product.deliveryPrice, product.name, product.description
         ],
         (err, res) => {
             if(err) {
@@ -26,35 +28,34 @@ Product.create = (userId, newProduct, result) => {
                 result(err, null);
                 return;
             }
-            result(null, { id: res.insertId, ...newProduct });
+            result(null, { productId: res.insertId, ...product });
         }
     );
 };
 
-Product.findById = (userId, productId, result) => {
+Product.findByProductId = (productId, result) => {
     sql.query(
-        `SELECT * FROM products WHERE user = ? AND id = ?`,
-        [userId, productId],
+        FIND_BY_PRODUCT_ID,
+        productId,
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
                 result(err, null);
                 return;
             }
-
             if(res.length) {
                 result(null, res[0]);
                 return;
             }
-
             result({ kind: "not_found" }, null);
         }
     );
 };
 
-Product.findByKeyword = (keyWord, result) => {
+Product.findByKeyword = (keyword, result) => {
     sql.query(
-        `SELECT * FROM products WHERE id LIKE "%${keyWord}%" OR products.group LIKE "%${keyWord}%" OR barcode LIKE "%${keyWord}%" OR name LIKE "%${keyWord}%" OR description LIKE "%${keyWord}%" OR products.user LIKE "%${keyWord}%"`,
+        FIND_BY_KEYOWОRD,
+        keyword,
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
@@ -66,9 +67,9 @@ Product.findByKeyword = (keyWord, result) => {
     );
 };
 
-Product.getAll = (userId, result) => {
+Product.getAllByUserId = (userId, result) => {
     sql.query(
-        "SELECT * FROM products WHERE user = ?",
+        GET_ALL_BY_USER_ID,
         userId,
         (err, res) => {
             if(err) {
@@ -81,13 +82,12 @@ Product.getAll = (userId, result) => {
     );
 };
 
-Product.updateById = (userId, productId, newProduct, result) => {
+Product.updateByProductId = (productId, product, result) => {
     sql.query(
-        `UPDATE products SET name = ?, products.group = ?, description = ?, products.code = ?, barcode = ?, measureUnit = ?, taxGroup = ?, retailPrice = ?, deliveryPrice = ? WHERE user = ? AND id = ?`,
+        UPDATE_BY_PRODUCT_ID,
         [
-            newProduct.name, newProduct.group, newProduct.description, newProduct.code,
-            newProduct.barcode, newProduct.measureUnit, newProduct.taxGroup, newProduct.retailPrice,
-            newProduct.deliveryPrice, userId, productId
+            product.groupId, product.code, product.barcode, product.measureUnitId, product.taxGroupId,
+            product.retailPrice, product.deliveryPrice, product.name, product.description, productId
         ],
         (err, res) => {
             if(err) {
@@ -99,14 +99,14 @@ Product.updateById = (userId, productId, newProduct, result) => {
                 result({ kind: "not_found" }, null);
                 return;
             }
-            result(null, { id: productId, ...newProduct });
+            result(null, { productId, ...product });
         });
 };
 
-Product.deleteById = (userId, productId, result) => {
+Product.deleteByProductId = (productId, result) => {
     sql.query(
-        `DELETE FROM products WHERE user = ? AND id = ?`,
-        [userId, productId],
+        DELETE_BY_PRODUCT_ID,
+        productId,
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);

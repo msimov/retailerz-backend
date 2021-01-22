@@ -1,12 +1,14 @@
+const { FIND_BY_USER_TYPE_ID, GET_ALL } = require('../constants/user-types.constants');
 const sql = require('./db');
 
 const UserType = function(userType) {
-    this.type = userType.type;
+    this.userTypeId = userType.userTypeId;
+    this.name = userType.name;
 };
 
-UserType.findById = (userTypeId, result) => {
+UserType.findByUserTypeId = (userTypeId, result) => {
     sql.query(
-        `SELECT * FROM user_types WHERE id = ?`,
+        FIND_BY_USER_TYPE_ID,
         userTypeId,
         (err, res) => {
             if(err) {
@@ -14,12 +16,10 @@ UserType.findById = (userTypeId, result) => {
                 result(err, null);
                 return;
             }
-
             if(res.length) {
                 result(null, res[0]);
                 return;
             }
-
             result({ kind: "not_found" }, null);
         }
     );
@@ -27,7 +27,7 @@ UserType.findById = (userTypeId, result) => {
 
 UserType.getAll = result => {
     sql.query(
-        "SELECT * FROM user_types",
+        GET_ALL,
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);

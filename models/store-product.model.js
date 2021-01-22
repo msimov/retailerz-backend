@@ -1,28 +1,31 @@
+const { CREATE, GET_ALL_BY_STORE_ID, DELETE_BY_STORE_ID_AND_PRODUCT_ID } = require('../constants/store-product.constants');
 const sql = require('./db');
 
 const StoreProduct = function(storeProduct) {
+    this.storeProductId = storeProduct.storeProductId;
+    this.storeId = storeProduct.storeId;
     this.productId = storeProduct.productId;
 }
 
-StoreProduct.create = (userId, storeId, storeProduct, result) => {
+StoreProduct.create = (storeId, storeProduct, result) => {
     sql.query(
-        `INSERT INTO stores_products (userId, storeId , productId) VALUES (?, ?, ?)`,
-        [userId, storeId, storeProduct.productId],
+        CREATE,
+        [storeId, storeProduct.productId],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
                 result(err, null);
                 return;
             }
-            result(null, { id: res.insertId, storeId, ...storeProduct });
+            result(null, { storeProductId: res.insertId, storeId, ...storeProduct });
         }
     );
 };
 
-StoreProduct.getAllByStoreId = (userId, storeId, result) => {
+StoreProduct.getAllByStoreId = (storeId, result) => {
     sql.query(
-        `SELECT * FROM stores_products WHERE userId = ? AND storeId = ?`,
-        [userId, storeId],
+        GET_ALL_BY_STORE_ID,
+        storeId,
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
@@ -34,10 +37,10 @@ StoreProduct.getAllByStoreId = (userId, storeId, result) => {
     );
 };
 
-StoreProduct.deleteByStoreIdAndProductId = (userId, storeId, productId, result) => {
+StoreProduct.deleteByStoreIdAndProductId = (storeId, productId, result) => {
     sql.query(
-        `DELETE FROM stores_products WHERE userId = ? AND storeId = ? AND productId = ?`,
-        [userId, storeId, productId],
+        DELETE_BY_STORE_ID_AND_PRODUCT_ID,
+        [storeId, productId],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);

@@ -1,51 +1,52 @@
+const { CREATE, FIND_BY_OPERATION_ID, GET_ALL_BY_USER_ID, GET_ALL_BY_USER_ID_AND_OPERATION_TYPE_ID, UPDATE_BY_OPERATION_ID, DELETE_BY_OPERATION_ID } = require('../constants/operation.constants');
 const sql = require('./db');
 
 const Operation = function(operation) {
-    this.operationType = operation.operationType;
-    this.store = operation.store;
-    this.product = operation.product;
-    this.count = operation.count;
+    this.operationId = operation.operationId;
+    this.userId = operation.userId;
+    this.productId = operation.operationType;
+    this.count = operation.store;
+    this.operationTypeId = operation.product;
+    this.storeId = operation.count;
 };
 
-Operation.create = (userId, newOperation, result) => {
+Operation.create = (userId, operation, result) => {
     sql.query(
-        `INSERT INTO operations (user, store, product, operationType, count) VALUES (?, ?, ?, ?, ?)`,
-        [userId, newOperation.store, newOperation.product, newOperation.operationType, newOperation.count],
+        CREATE,
+        [userId, operation.productId, operation.count, operation.operationTypeId, operation.storeId],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
                 result(err, null);
                 return;
             }
-            result(null, { id: res.insertId, ...newOperation });
+            result(null, { operationId: res.insertId, ...operation });
         }
     );
 };
 
-Operation.findById = (userId, operationId, result) => {
+Operation.findByOperationId = (operationId, result) => {
     sql.query(
-        `SELECT * FROM operations WHERE user = ? AND id = ?`,
-        [userId, operationId],
+        FIND_BY_OPERATION_ID,
+        operationId,
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
                 result(err, null);
                 return;
             }
-
             if(res.length) {
                 result(null, res[0]);
                 return;
             }
-
             result({ kind: "not_found" }, null);
         }
     );
 };
 
-Operation.getAll = (userId, result) => {
+Operation.getAllByUserId = (userId, result) => {
     sql.query(
-        "SELECT * FROM operations WHERE user = ?",
+        GET_ALL_BY_USER_ID,
         userId,
         (err, res) => {
             if(err) {
@@ -58,10 +59,10 @@ Operation.getAll = (userId, result) => {
     );
 };
 
-Operation.getAllByOperationType = (userId, operationType, result) => {
+Operation.getAllByUserIdAndOperationTypeId = (userId, operationTypeId, result) => {
     sql.query(
-        "SELECT * FROM operations WHERE user = ? AND operationType = ?",
-        [userId, operationType],
+        GET_ALL_BY_USER_ID_AND_OPERATION_TYPE_ID,
+        [userId, operationTypeId],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
@@ -73,10 +74,10 @@ Operation.getAllByOperationType = (userId, operationType, result) => {
     );
 };
 
-Operation.updateById = (userId, operationId, operation, result) => {
+Operation.updateByOperationId = (operationId, operation, result) => {
     sql.query(
-        `UPDATE operations SET count = ?, product = ?, operationType = ?, store = ? WHERE user = ? AND id = ?`,
-        [operation.count, operation.product, operation.operationType, operation.store, userId, operationId],
+        UPDATE_BY_OPERATION_ID,
+        [operation.productId, operation.count, operation.operationTypeId, operation.storeId, operationId],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
@@ -92,10 +93,10 @@ Operation.updateById = (userId, operationId, operation, result) => {
     );
 };
 
-Operation.deleteById = (userId, operationId, result) => {
+Operation.deleteByOperationId = (operationId, result) => {
     sql.query(
-        `DELETE FROM operations WHERE user = ? AND id = ?`,
-        [userId, operationId],
+        DELETE_BY_OPERATION_ID,
+        operationId,
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
@@ -106,7 +107,7 @@ Operation.deleteById = (userId, operationId, result) => {
                 result({ kind: "not_found" }, null);
                 return;
             }
-            result(null, operationId)   ;
+            result(null, operationId);
         }
     );
 }

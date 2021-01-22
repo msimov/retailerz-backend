@@ -1,12 +1,14 @@
+const { FIND_BY_TAX_GROUP_ID, GET_ALL } = require('../constants/tax-group.constants');
 const sql = require('./db');
 
 const TaxGroup = function(taxGroup) {
+    this.taxGroupId = taxGroup.taxGroupId;
     this.percentage = taxGroup.percentage;
 };
 
-TaxGroup.findById = (taxGroupId, result) => {
+TaxGroup.findByTaxGroupId = (taxGroupId, result) => {
     sql.query(
-        `SELECT * FROM tax_groups WHERE id = ?`,
+        FIND_BY_TAX_GROUP_ID,
         taxGroupId,
         (err, res) => {
             if(err) {
@@ -14,12 +16,10 @@ TaxGroup.findById = (taxGroupId, result) => {
                 result(err, null);
                 return;
             }
-
             if(res.length) {
                 result(null, res[0]);
                 return;
             }
-
             result({ kind: "not_found" }, null);
         }
     );
@@ -27,7 +27,7 @@ TaxGroup.findById = (taxGroupId, result) => {
 
 TaxGroup.getAll = result => {
     sql.query(
-        "SELECT * FROM tax_groups",
+        GET_ALL,
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);

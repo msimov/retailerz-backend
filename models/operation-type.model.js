@@ -1,12 +1,14 @@
+const { FIND_BY_OPERATION_TYPE_ID, GET_ALL } = require('../constants/operation-type.constants');
 const sql = require('./db');
 
 const OperationType = function(operationType) {
-    this.type = operationType.type;
+    this.operationTypeId = operationType.operationTypeId;
+    this.name = operationType.name;
 };
 
-OperationType.findById = (operationTypeId, result) => {
+OperationType.findByOperationTypeId = (operationTypeId, result) => {
     sql.query(
-        `SELECT * FROM operation_types WHERE id = ?`,
+        FIND_BY_OPERATION_TYPE_ID,
         operationTypeId,
         (err, res) => {
             if(err) {
@@ -14,12 +16,10 @@ OperationType.findById = (operationTypeId, result) => {
                 result(err, null);
                 return;
             }
-
             if(res.length) {
                 result(null, res[0]);
                 return;
             }
-
             result({ kind: "not_found" }, null);
         }
     );
@@ -27,14 +27,13 @@ OperationType.findById = (operationTypeId, result) => {
 
 OperationType.getAll = result => {
     sql.query(
-        "SELECT * FROM operation_types",
+        GET_ALL,
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
                 result(err, null);
                 return;
             }
-
             result(null, res);
         }
     );

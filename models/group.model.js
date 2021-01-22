@@ -1,41 +1,41 @@
 const { CREATE, FIND_BY_GROUP_ID, GET_ALL_BY_USER_ID, UPDATE_BY_GROUP_ID, DELETE_BY_GROUP_ID } = require('../constants/group.constants');
 const sql = require('./db');
 
+
 const Group = function(group) {
+    this.groupId = group.groupId;
     this.name = group.name;
 };
 
-Group.create = (userId, newGroup, result) => {
+Group.create = (userId, group, result) => {
     sql.query(
         CREATE,
-        [userId, newGroup.name],
+        [userId, group.name],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
                 result(err, null);
                 return;
             }
-            result(null, { id: res.insertId, ...newGroup });
+            result(null, { groupId: res.insertId, ...group });
         }
     );
 };
 
-Group.findById = (id, result) => {
+Group.findByGroupId = (groupId, result) => {
     sql.query(
         FIND_BY_GROUP_ID,
-        id,
+        groupId,
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
                 result(err, null);
                 return;
             }
-
             if(res.length) {
                 result(null, res[0]);
                 return;
             }
-
             result({ kind: "not_found" }, null);
         }
     );
@@ -56,10 +56,10 @@ Group.getAllByUserId = (userId, result) => {
     );
 };
 
-Group.updateById = (id, group, result) => {
+Group.updateByGroupId = (groupId, group, result) => {
     sql.query(
         UPDATE_BY_GROUP_ID,
-        [group.name, id],
+        [group.name, groupId],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
@@ -70,15 +70,15 @@ Group.updateById = (id, group, result) => {
                 result({ kind: "not_found" }, null);
                 return;
             }
-            result(null, { id, ...group });
+            result(null, { groupId, ...group });
         }
     );
 };
 
-Group.deleteById = (id, result) => {
+Group.deleteByGroupId = (groupId, result) => {
     sql.query(
         DELETE_BY_GROUP_ID,
-        id,
+        groupId,
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
@@ -89,7 +89,7 @@ Group.deleteById = (id, result) => {
                 result({ kind: "not_found" }, null);
                 return;
             }
-            result(null, id);
+            result(null, groupId);
         }
     );
 }

@@ -1,48 +1,48 @@
+const { CREATE, FIND_BY_MEASURE_UNIT_ID, GET_ALL_BY_USER_ID, UPDATE_BY_MEASURE_UNIT_ID, DELETE_BY_MEASURE_UNIT_ID } = require('../constants/measure-unit.constants');
 const sql = require('./db');
 
 const MeasureUnit = function(measureUnit) {
-    this.unit = measureUnit.unit;
+    this.measureUnitId = measureUnit.measureUnitId;
+    this.name = measureUnit.name;
 };
 
-MeasureUnit.create = (userId, newMeasureUnit, result) => {
+MeasureUnit.create = (userId, measureUnit, result) => {
     sql.query(
-        `INSERT INTO measure_units (user , unit) VALUES (?, ?)`,
-        [userId, newMeasureUnit.unit],
+        CREATE,
+        [userId, measureUnit.name],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
                 result(err, null);
                 return;
             }
-            result(null, { id: res.insertId, ...newMeasureUnit });
+            result(null, { measureUnitId: res.insertId, ...measureUnit });
         }
     );
 };
 
-MeasureUnit.findById = (userId, measureUnitId, result) => {
+MeasureUnit.findByMeasureUnitId = (measureUnitId, result) => {
     sql.query(
-        `SELECT * FROM measure_units WHERE user = ? AND id = ?`,
-        [userId, measureUnitId],
+        FIND_BY_MEASURE_UNIT_ID,
+        measureUnitId,
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
                 result(err, null);
                 return;
             }
-
             if(res.length) {
                 result(null, res[0]);
                 return;
             }
-
             result({ kind: "not_found" }, null);
         }
     );
 };
 
-MeasureUnit.getAll = (userId, result) => {
+MeasureUnit.getAllByUserId = (userId, result) => {
     sql.query(
-        "SELECT * FROM measure_units WHERE user = ?",
+        GET_ALL_BY_USER_ID,
         userId,
         (err, res) => {
             if(err) {
@@ -55,10 +55,10 @@ MeasureUnit.getAll = (userId, result) => {
     );
 };
 
-MeasureUnit.updateById = (userId, measureUnitId, measureUnit, result) => {
+MeasureUnit.updateByMeasureUnitId = (measureUnitId, measureUnit, result) => {
     sql.query(
-        `UPDATE measure_units SET unit = ? WHERE user = ? AND id = ?`,
-        [measureUnit.unit, userId, measureUnitId],
+        UPDATE_BY_MEASURE_UNIT_ID,
+        [measureUnit.name, measureUnitId],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
@@ -74,10 +74,10 @@ MeasureUnit.updateById = (userId, measureUnitId, measureUnit, result) => {
     );
 };
 
-MeasureUnit.deleteById = (userId, measureUnitId, result) => {
+MeasureUnit.deleteByMeasureUnitId = (measureUnitId, result) => {
     sql.query(
-        `DELETE FROM measure_units WHERE user = ? AND id = ?`,
-        [userId, measureUnitId],
+        DELETE_BY_MEASURE_UNIT_ID,
+        measureUnitId,
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);

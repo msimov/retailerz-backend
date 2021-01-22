@@ -2,29 +2,29 @@ const { CREATE, FIND_BY_USER_ID, GET_ALL, UPDATE_BY_USER_ID, DELETE_BY_USER_ID }
 const sql = require('./db');
 
 const User = function(user) {
-    this.id = user.id;
+    this.userId = user.userId;
     this.firstName = user.firstName;
     this.lastName = user.lastName;
     this.email = user.email;
-    this.type = user.type;
+    this.userTypeId = user.userTypeId;
 };
 
-User.create = (newUser, result) => {
+User.create = (user, result) => {
     sql.query(
         CREATE,
-        [newUser.id, newUser.firstName, newUser.lastName, newUser.email, newUser.type],
+        [user.userId, user.firstName, user.lastName, user.email, user.userTypeId],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
                 result(err, null);
                 return;
             }
-            result(null, { id: res.insertId, ...newUser });
+            result(null, { userId: res.insertId, ...user });
         }
     );
 };
 
-User.findById = (userId, result) => {
+User.findByUserId = (userId, result) => {
     sql.query(
         FIND_BY_USER_ID,
         userId,
@@ -59,10 +59,10 @@ User.getAll = result => {
     );
 };
 
-User.updateById = (id, user, result) => {
+User.updateByUserId = (userId, user, result) => {
     sql.query(
         UPDATE_BY_USER_ID,
-        [user.firstName, user.lastName, user.email, id],
+        [user.firstName, user.lastName, user.email, userId],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
@@ -73,15 +73,15 @@ User.updateById = (id, user, result) => {
                 result({ kind: "not_found" }, null);
                 return;
             }
-            result(null, { id: id, ...user });
+            result(null, { userId, ...user });
         }
     );
 };
 
-User.deleteById = (id, result) => {
+User.deleteByUserId = (userId, result) => {
     sql.query(
         DELETE_BY_USER_ID,
-        id,
+        userId,
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
@@ -92,7 +92,7 @@ User.deleteById = (id, result) => {
                 result({ kind: "not_found" }, null);
                 return;
             }
-            result(null, id);
+            result(null, userId);
         }
     );
 }

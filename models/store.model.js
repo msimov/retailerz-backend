@@ -1,48 +1,49 @@
+const { CREATE, FIND_BY_STORE_ID, GET_ALL_BY_USER_ID, UPDATE_BY_STORE_ID, DELETE_BY_STORE_ID } = require('../constants/store.constants');
 const sql = require('./db');
 
 const Store = function(store) {
+    this.storeId = store.storeId;
+    this.userId = store.userId;
     this.location = store.location;
 }
 
-Store.create = (userId, newStore, result) => {
+Store.create = (userId, store, result) => {
     sql.query(
-        `INSERT INTO stores (user , location) VALUES (?, ?)`,
-        [userId, newStore.location],
+        CREATE,
+        [userId, store.location],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
                 result(err, null);
                 return;
             }
-            result(null, { id: res.insertId, ...newStore });
+            result(null, { storeId: res.insertId, ...store });
         }
     );
 };
 
-Store.findById = (userId, storeId, result) => {
+Store.findByStoreId = (storeId, result) => {
     sql.query(
-        `SELECT * FROM stores WHERE user = ? AND id = ?`,
-        [userId, storeId],
+        FIND_BY_STORE_ID,
+        storeId,
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
                 result(err, null);
                 return;
             }
-
             if(res.length) {
                 result(null, res[0]);
                 return;
             }
-
             result({ kind: "not_found" }, null);
         }
     );
 };
 
-Store.getAll = (userId, result) => {
+Store.getAllByUserId = (userId, result) => {
     sql.query(
-        "SELECT * FROM stores WHERE user = ?",
+        GET_ALL_BY_USER_ID,
         userId,
         (err, res) => {
             if(err) {
@@ -55,10 +56,10 @@ Store.getAll = (userId, result) => {
     );
 };
 
-Store.updateById = (userId, storeId, store, result) => {
+Store.updateByStoreId = (storeId, store, result) => {
     sql.query(
-        `UPDATE stores SET location = ?, user = ? WHERE user = ? AND id = ?`,
-        [store.location, userId, userId, storeId],
+        UPDATE_BY_STORE_ID,
+        [store.location, storeId],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
@@ -69,15 +70,15 @@ Store.updateById = (userId, storeId, store, result) => {
                 result({ kind: "not_found" }, null);
                 return;
             }
-            result(null, { storeId: storeId, ...store });
+            result(null, { storeId, ...store });
         }
     );
 };
 
-Store.deleteById = (userId, storeId, result) => {
+Store.deleteByStoreId = (storeId, result) => {
     sql.query(
-        `DELETE FROM stores WHERE user = ? AND id = ?`,
-        [userId, storeId],
+        DELETE_BY_STORE_ID,
+        storeId,
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
