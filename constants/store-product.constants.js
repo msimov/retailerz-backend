@@ -26,6 +26,16 @@ ON storesProductsTable.product_id = productsTable.id \
 WHERE store_id = ?\
 `
 
+exports.GET_ALL_BY_PRODUCT_ID = `\
+SELECT ${this.COLUMNS}, ${STORE_COLUMNS}, ${PRODUCT_COLUMNS} \
+FROM stores_products as storesProductsTable \
+LEFT JOIN retailerz.stores as storesTable \
+ON storesProductsTable.store_id = storesTable.id
+LEFT JOIN retailerz.products as productsTable \
+ON storesProductsTable.product_id = productsTable.id \
+WHERE product_id = ?\
+`
+
 exports.DELETE_BY_STORE_ID_AND_PRODUCT_ID = `\
 DELETE FROM retailerz.stores_products \
 WHERE store_id = ? \

@@ -38,6 +38,22 @@ exports.getAllByStoreId = (req, res) => {
     );
 };
 
+exports.getAllByProductId = (req, res) => {
+    StoreProduct.getAllByProductId(
+        req.params.productId,
+        (err, data) => {
+            if(err) {
+                res.status(500).send({
+                    message:
+                        err.message || "Error."
+                });
+            } else {
+                res.send(data);
+            }
+        }
+    );
+};
+
 exports.deleteByStoreIdAndProductId = (req, res) => {
     StoreProduct.deleteByStoreIdAndProductId(
         req.params.storeId,

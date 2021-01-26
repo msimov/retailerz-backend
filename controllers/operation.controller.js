@@ -64,7 +64,23 @@ exports.getAllByUserIdAndOperationTypeId = (req, res) => {
     Operation.getAllByUserIdAndOperationTypeId(
         req.params.userId,
         req.body.operationTypeId,
-        (res, data) => {
+        (err, data) => {
+            if(err) {
+                res.status(500).send({
+                    message:
+                        err.message || "Error."
+                });
+            } else {
+                res.send(data);
+            }
+        }
+    );
+}
+
+exports.getInventory = (req, res) => {
+    Operation.getInventory(
+        req.params.userId,
+        (err, data) => {
             if(err) {
                 res.status(500).send({
                     message:

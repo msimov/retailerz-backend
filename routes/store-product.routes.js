@@ -5,5 +5,7 @@ module.exports = app => {
 
     app.get("/stores/:storeId/products", storesProducts.getAllByStoreId);
 
+    app.get("/products/:productId/stores", storesProducts.getAllByProductId);
+
     app.delete("/stores/:storeId/products/:productId", storesProducts.deleteByStoreIdAndProductId);
 }

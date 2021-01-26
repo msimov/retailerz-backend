@@ -64,6 +64,32 @@ ON operationsTable.store_id = storesTable.id \
 WHERE operationsTable.user_id = ? \
 AND operationsTable.operation_type_id = ?\
 `
+
+exports.GET_INVENTORY = `\
+SELECT ${PRODUCT_COLUMNS}, ${STORE_COLUMNS},SUM(\
+CASE \
+WHEN operationTypesTable.name = "DELIVERY" THEN operationsTable.count \
+WHEN operationTypesTable.name = "REFUND" THEN operationsTable.count \
+WHEN operationTypesTable.name = "SALE" THEN -1 * operationsTable.count \
+WHEN operationTypesTable.name = "ADD_TO_CART" THEN -1 * operationsTable.count \
+ELSE 0 END\
+) AS productCount \
+FROM retailerz.operations AS operationsTable \
+LEFT JOIN retailerz.products AS productsTable \
+ON operationsTable.product_id = productsTable.id \
+LEFT JOIN retailerz.operation_types AS operationTypesTable \
+ON operationsTable.operation_type_id = operationTypesTable.id \
+LEFT JOIN retailerz.stores AS storesTable \
+ON operationsTable.store_id = storesTable.id \
+WHERE (\
+CASE \
+WHEN operationTypesTable.name = "ADD_TO_CART" THEN 1 \
+WHEN operationTypesTable.name != "ADD_TO_CART" AND operationsTable.user_id = ? THEN 1 \
+ELSE 0 END\
+) \
+GROUP BY operationsTable.product_id, operationsTable.store_id\
+`
+
 exports.UPDATE_BY_OPERATION_ID = `\
 UPDATE retailerz.operations \
 SET product_id = ?, count = ?, operation_type_id = ?, store_id = ? \

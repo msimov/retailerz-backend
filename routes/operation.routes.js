@@ -9,6 +9,8 @@ module.exports = app => {
 
     app.get("/users/:userId/operations", operations.getAllByUserIdAndOperationTypeId);
 
+    app.get("/users/:userId/inventory", operations.getInventory);
+
     app.put("/operations/:operationId", operations.updateByOperationId);
 
     app.delete("/operations/:operationId", operations.deleteByOperationId);

@@ -1,4 +1,4 @@
-const { CREATE, FIND_BY_OPERATION_ID, GET_ALL_BY_USER_ID, GET_ALL_BY_USER_ID_AND_OPERATION_TYPE_ID, UPDATE_BY_OPERATION_ID, DELETE_BY_OPERATION_ID } = require('../constants/operation.constants');
+const { CREATE, FIND_BY_OPERATION_ID, GET_ALL_BY_USER_ID, GET_ALL_BY_USER_ID_AND_OPERATION_TYPE_ID, UPDATE_BY_OPERATION_ID, DELETE_BY_OPERATION_ID, GET_ALL_BY_PRODUCT_ID_AND_OPERATION_TYPE_ID, GET_INVENTORY } = require('../constants/operation.constants');
 const sql = require('./db');
 
 const Operation = function(operation) {
@@ -59,16 +59,32 @@ Operation.getAllByUserId = (operationUserId, result) => {
     );
 };
 
-Operation.getAllByUserIdAndOperationTypeId = (operationUserId, operationTypeId, result) => {
+Operation.getAllByUserIdAndOperationTypeId = (operationUserId, operationOperationTypeId, result) => {
     sql.query(
         GET_ALL_BY_USER_ID_AND_OPERATION_TYPE_ID,
-        [operationUserId, operationTypeId],
+        [operationUserId, operationOperationTypeId],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
                 result(err, null);
                 return;
             }
+            result(null, res);
+        }
+    );
+};
+
+Operation.getInventory = (operationUserId, result) => {
+    sql.query(
+        GET_INVENTORY,
+        operationUserId,
+        (err, res) => {
+            if(err) {
+                console.log("Error: ", err);
+                result(err, null);
+                return;
+            }
+            console.log(res)
             result(null, res);
         }
     );

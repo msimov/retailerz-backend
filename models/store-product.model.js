@@ -1,4 +1,4 @@
-const { CREATE, GET_ALL_BY_STORE_ID, DELETE_BY_STORE_ID_AND_PRODUCT_ID } = require('../constants/store-product.constants');
+const { CREATE, GET_ALL_BY_STORE_ID, DELETE_BY_STORE_ID_AND_PRODUCT_ID, GET_ALL_BY_PRODUCT_ID } = require('../constants/store-product.constants');
 const sql = require('./db');
 
 const StoreProduct = function(storeProduct) {
@@ -26,6 +26,21 @@ StoreProduct.getAllByStoreId = (storeProductStoreId, result) => {
     sql.query(
         GET_ALL_BY_STORE_ID,
         storeProductStoreId,
+        (err, res) => {
+            if(err) {
+                console.log("Error: ", err);
+                result(err, null);
+                return;
+            }
+            result(null, res);
+        }
+    );
+};
+
+StoreProduct.getAllByProductId = (storeProductProductId, result) => {
+    sql.query(
+        GET_ALL_BY_PRODUCT_ID,
+        storeProductProductId,
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
