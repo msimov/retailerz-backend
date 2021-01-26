@@ -3,20 +3,20 @@ const sql = require('./db');
 
 const MeasureUnit = function(measureUnit) {
     this.measureUnitId = measureUnit.measureUnitId;
-    this.name = measureUnit.name;
+    this.measureUnitName = measureUnit.measureUnitName;
 };
 
-MeasureUnit.create = (userId, measureUnit, result) => {
+MeasureUnit.create = (measureUnitUserId, measureUnit, result) => {
     sql.query(
         CREATE,
-        [userId, measureUnit.name],
+        [measureUnitUserId, measureUnit.measureUnitName],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
                 result(err, null);
                 return;
             }
-            result(null, { measureUnitId: res.insertId, ...measureUnit });
+            result(null, { measureUnitId: res.insertId, measureUnitUserId, ...measureUnit });
         }
     );
 };
@@ -40,10 +40,10 @@ MeasureUnit.findByMeasureUnitId = (measureUnitId, result) => {
     );
 };
 
-MeasureUnit.getAllByUserId = (userId, result) => {
+MeasureUnit.getAllByUserId = (measureUnitUserId, result) => {
     sql.query(
         GET_ALL_BY_USER_ID,
-        userId,
+        measureUnitUserId,
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
@@ -58,7 +58,7 @@ MeasureUnit.getAllByUserId = (userId, result) => {
 MeasureUnit.updateByMeasureUnitId = (measureUnitId, measureUnit, result) => {
     sql.query(
         UPDATE_BY_MEASURE_UNIT_ID,
-        [measureUnit.name, measureUnitId],
+        [measureUnit.measureUnitName, measureUnitId],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);

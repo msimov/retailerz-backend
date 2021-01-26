@@ -3,7 +3,7 @@ const sql = require('./db');
 
 const OperationType = function(operationType) {
     this.operationTypeId = operationType.operationTypeId;
-    this.name = operationType.name;
+    this.operationTypeName = operationType.operationTypeName;
 };
 
 OperationType.findByOperationTypeId = (operationTypeId, result) => {

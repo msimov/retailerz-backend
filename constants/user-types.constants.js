@@ -11,5 +11,5 @@ WHERE userTypesTable.id = ?\
 
 exports.GET_ALL = `\
 SELECT ${this.COLUMNS} \
-FROM retailerz.userTypes AS userTypesTable\
+FROM retailerz.user_types AS userTypesTable\
 `

@@ -3,29 +3,29 @@ const sql = require('./db');
 
 const StoreProduct = function(storeProduct) {
     this.storeProductId = storeProduct.storeProductId;
-    this.storeId = storeProduct.storeId;
-    this.productId = storeProduct.productId;
+    this.storeProductStoreId = storeProduct.storeProductStoreId;
+    this.storeProductProductId = storeProduct.storeProductProductId;
 }
 
-StoreProduct.create = (storeId, storeProduct, result) => {
+StoreProduct.create = (storeProductStoreId, storeProduct, result) => {
     sql.query(
         CREATE,
-        [storeId, storeProduct.productId],
+        [storeProductStoreId, storeProduct.storeProductProductId],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
                 result(err, null);
                 return;
             }
-            result(null, { storeProductId: res.insertId, storeId, ...storeProduct });
+            result(null, { storeProductId: res.insertId, storeProductStoreId, ...storeProduct });
         }
     );
 };
 
-StoreProduct.getAllByStoreId = (storeId, result) => {
+StoreProduct.getAllByStoreId = (storeProductStoreId, result) => {
     sql.query(
         GET_ALL_BY_STORE_ID,
-        storeId,
+        storeProductStoreId,
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
@@ -37,10 +37,10 @@ StoreProduct.getAllByStoreId = (storeId, result) => {
     );
 };
 
-StoreProduct.deleteByStoreIdAndProductId = (storeId, productId, result) => {
+StoreProduct.deleteByStoreIdAndProductId = (storeProductStoreId, storeProductProductId, result) => {
     sql.query(
         DELETE_BY_STORE_ID_AND_PRODUCT_ID,
-        [storeId, productId],
+        [storeProductStoreId, storeProductProductId],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
@@ -51,7 +51,7 @@ StoreProduct.deleteByStoreIdAndProductId = (storeId, productId, result) => {
                 result({ kind: "not_found" }, null);
                 return;
             }
-            result(null, {storeId, productId});
+            result(null, {storeProductStoreId, storeProductProductId});
         }
     );
 }

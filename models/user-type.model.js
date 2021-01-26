@@ -3,7 +3,7 @@ const sql = require('./db');
 
 const UserType = function(userType) {
     this.userTypeId = userType.userTypeId;
-    this.name = userType.name;
+    this.userTypeName = userType.userTypeName;
 };
 
 UserType.findByUserTypeId = (userTypeId, result) => {

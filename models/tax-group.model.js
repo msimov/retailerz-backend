@@ -3,7 +3,7 @@ const sql = require('./db');
 
 const TaxGroup = function(taxGroup) {
     this.taxGroupId = taxGroup.taxGroupId;
-    this.percentage = taxGroup.percentage;
+    this.taxGroupPercentage = taxGroup.taxGroupPercentage;
 };
 
 TaxGroup.findByTaxGroupId = (taxGroupId, result) => {

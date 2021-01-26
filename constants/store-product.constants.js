@@ -17,8 +17,12 @@ VALUES (?, ?)\
 `
 
 exports.GET_ALL_BY_STORE_ID = `\
-SELECT ${STORE_COLUMNS}, ${PRODUCT_COLUMNS} \
+SELECT ${this.COLUMNS}, ${STORE_COLUMNS}, ${PRODUCT_COLUMNS} \
 FROM stores_products as storesProductsTable \
+LEFT JOIN retailerz.stores as storesTable \
+ON storesProductsTable.store_id = storesTable.id
+LEFT JOIN retailerz.products as productsTable \
+ON storesProductsTable.product_id = productsTable.id \
 WHERE store_id = ?\
 `
 

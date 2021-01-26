@@ -3,16 +3,16 @@ const sql = require('./db');
 
 const User = function(user) {
     this.userId = user.userId;
-    this.firstName = user.firstName;
-    this.lastName = user.lastName;
-    this.email = user.email;
-    this.userTypeId = user.userTypeId;
+    this.userFirstName = user.userFirstName;
+    this.userLastName = user.userLastName;
+    this.userEmail = user.userEmail;
+    this.userUserTypeId = user.userUserTypeId;
 };
 
 User.create = (user, result) => {
     sql.query(
         CREATE,
-        [user.userId, user.firstName, user.lastName, user.email, user.userTypeId],
+        [user.userId, user.userFirstName, user.userLastName, user.userEmail, user.userUserTypeId],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
@@ -62,7 +62,7 @@ User.getAll = result => {
 User.updateByUserId = (userId, user, result) => {
     sql.query(
         UPDATE_BY_USER_ID,
-        [user.firstName, user.lastName, user.email, userId],
+        [user.userFirstName, user.userLastName, user.userEmail, userId],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);

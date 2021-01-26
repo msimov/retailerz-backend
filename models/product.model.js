@@ -3,24 +3,24 @@ const sql = require('./db');
 
 const Product = function(product) {
     this.productId = product.productId;
-    this.userId = product.userId;
-    this.groupId = product.groupId;
-    this.code = product.code;
-    this.barcode = product.barcode;
-    this.measureUnitId = product.measureUnitId;
-    this.taxGroupId = product.taxGroupId;
-    this.retailPrice = product.retailPrice;
-    this.deliveryPrice = product.deliveryPrice;
-    this.name = product.name;
-    this.description = product.description;
+    this.productUserId = product.productUserId;
+    this.productGroupId = product.productGroupId;
+    this.productCode = product.productCode;
+    this.productBarcode = product.productBarcode;
+    this.productMeasureUnitId = product.productMeasureUnitId;
+    this.productTaxGroupId = product.productTaxGroupId;
+    this.proudctRetailPrice = product.proudctRetailPrice;
+    this.productDeliveryPrice = product.productDeliveryPrice;
+    this.productName = product.productName;
+    this.productDescription = product.productDescription;
 };
 
-Product.create = (userId, product, result) => {
+Product.create = (operationUserId, product, result) => {
     sql.query(
         CREATE,
         [
-            userId, product.groupId, product.code, product.barcode, product.measureUnitId, 
-            product.taxGroupId, product.retailPrice, product.deliveryPrice, product.name, product.description
+            operationUserId, product.productGroupId, product.productCode, product.productBarcode, product.productMeasureUnitId, 
+            product.productTaxGroupId, product.productRetailPrice, product.productDeliveryPrice, product.productName, product.productDescription
         ],
         (err, res) => {
             if(err) {
@@ -28,7 +28,7 @@ Product.create = (userId, product, result) => {
                 result(err, null);
                 return;
             }
-            result(null, { productId: res.insertId, ...product });
+            result(null, { productId: res.insertId, operationUserId, ...product });
         }
     );
 };
@@ -55,7 +55,6 @@ Product.findByProductId = (productId, result) => {
 Product.findByKeyword = (keyword, result) => {
     sql.query(
         FIND_BY_KEYOWОRD(keyword),
-        keyword,
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
@@ -67,10 +66,10 @@ Product.findByKeyword = (keyword, result) => {
     );
 };
 
-Product.getAllByUserId = (userId, result) => {
+Product.getAllByUserId = (operationUserId, result) => {
     sql.query(
         GET_ALL_BY_USER_ID,
-        userId,
+        operationUserId,
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
@@ -86,8 +85,8 @@ Product.updateByProductId = (productId, product, result) => {
     sql.query(
         UPDATE_BY_PRODUCT_ID,
         [
-            product.groupId, product.code, product.barcode, product.measureUnitId, product.taxGroupId,
-            product.retailPrice, product.deliveryPrice, product.name, product.description, productId
+            product.productGroupId, product.productCode, product.productBarcode, product.productMeasureUnitId, product.productTaxGroupId,
+            product.productRetailPrice, product.productDeliveryPrice, product.productName, product.productDescription, productId
         ],
         (err, res) => {
             if(err) {

@@ -3,21 +3,21 @@ const sql = require('./db');
 
 const Store = function(store) {
     this.storeId = store.storeId;
-    this.userId = store.userId;
-    this.location = store.location;
+    this.storeUserId = store.storeUserId;
+    this.storeLocation = store.storeLocation;
 }
 
-Store.create = (userId, store, result) => {
+Store.create = (storeUserId, store, result) => {
     sql.query(
         CREATE,
-        [userId, store.location],
+        [storeUserId, store.storeLocation],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
                 result(err, null);
                 return;
             }
-            result(null, { storeId: res.insertId, ...store });
+            result(null, { storeId: res.insertId, storeUserId, ...store });
         }
     );
 };
@@ -41,10 +41,10 @@ Store.findByStoreId = (storeId, result) => {
     );
 };
 
-Store.getAllByUserId = (userId, result) => {
+Store.getAllByUserId = (storeUserId, result) => {
     sql.query(
         GET_ALL_BY_USER_ID,
-        userId,
+        storeUserId,
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
@@ -59,7 +59,7 @@ Store.getAllByUserId = (userId, result) => {
 Store.updateByStoreId = (storeId, store, result) => {
     sql.query(
         UPDATE_BY_STORE_ID,
-        [store.location, storeId],
+        [store.storeLocation, storeId],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);

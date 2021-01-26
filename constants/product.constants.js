@@ -35,9 +35,9 @@ LEFT JOIN retailerz.users AS usersTable \
 ON productsTable.user_id = usersTable.id \
 LEFT JOIN retailerz.groups AS groupsTable \
 ON productsTable.group_id = groupsTable.id \
-LEFT JOIN retailerz.measureUnits AS measureUnitsTable \
+LEFT JOIN retailerz.measure_units AS measureUnitsTable \
 ON productsTable.measure_unit_id = measureUnitsTable.id \
-LEFT JOIN retailerz.taxGroups AS taxGroupsTable \
+LEFT JOIN retailerz.tax_groups AS taxGroupsTable \
 ON productsTable.tax_group_id = taxGroupsTable.id \
 WHERE productsTable.id = ?\
 `
@@ -49,16 +49,16 @@ LEFT JOIN retailerz.users AS usersTable \
 ON productsTable.user_id = usersTable.id \
 LEFT JOIN retailerz.groups AS groupsTable \
 ON productsTable.group_id = groupsTable.id \
-LEFT JOIN retailerz.measureUnits AS measureUnitsTable \
+LEFT JOIN retailerz.measure_units AS measureUnitsTable \
 ON productsTable.measure_unit_id = measureUnitsTable.id \
-LEFT JOIN retailerz.taxGroups AS taxGroupsTable \
+LEFT JOIN retailerz.tax_groups AS taxGroupsTable \
 ON productsTable.tax_group_id = taxGroupsTable.id \
 WHERE productsTable.name LIKE "%${keyword}%" \
-OR productsTable.barcode LIKE "%${keyWord}%" \
-OR userTable.first_name LIKE "%${keyWord}%" \
-OR userTable.last_name LIKE "%${keyWord}%" \
-OR userTable.email LIKE "%${keyWord}%" \
-OR groupsTable.name LIKE "%${keyWord}%"\
+OR productsTable.barcode LIKE "%${keyword}%" \
+OR usersTable.first_name LIKE "%${keyword}%" \
+OR usersTable.last_name LIKE "%${keyword}%" \
+OR usersTable.email LIKE "%${keyword}%" \
+OR groupsTable.name LIKE "%${keyword}%"\
 `
 
 exports.GET_ALL_BY_USER_ID = `\
@@ -68,9 +68,9 @@ LEFT JOIN retailerz.users AS usersTable \
 ON productsTable.user_id = usersTable.id \
 LEFT JOIN retailerz.groups AS groupsTable \
 ON productsTable.group_id = groupsTable.id \
-LEFT JOIN retailerz.measureUnits AS measureUnitsTable \
+LEFT JOIN retailerz.measure_units AS measureUnitsTable \
 ON productsTable.measure_unit_id = measureUnitsTable.id \
-LEFT JOIN retailerz.taxGroups AS taxGroupsTable \
+LEFT JOIN retailerz.tax_groups AS taxGroupsTable \
 ON productsTable.tax_group_id = taxGroupsTable.id \
 WHERE productsTable.user_id = ?\
 `

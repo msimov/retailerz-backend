@@ -3,24 +3,24 @@ const sql = require('./db');
 
 const Operation = function(operation) {
     this.operationId = operation.operationId;
-    this.userId = operation.userId;
-    this.productId = operation.operationType;
-    this.count = operation.store;
-    this.operationTypeId = operation.product;
-    this.storeId = operation.count;
+    this.operationUserId = operation.operationUserId;
+    this.operationProductId = operation.operationProductId;
+    this.operationCount = operation.operationCount;
+    this.operationOperationTypeId = operation.operationOperationTypeId;
+    this.operationStoreId = operation.operationStoreId;
 };
 
-Operation.create = (userId, operation, result) => {
+Operation.create = (operationUserId, operation, result) => {
     sql.query(
         CREATE,
-        [userId, operation.productId, operation.count, operation.operationTypeId, operation.storeId],
+        [operationUserId, operation.operationProductId, operation.operationCount, operation.operationOperationTypeId, operation.operationStoreId],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
                 result(err, null);
                 return;
             }
-            result(null, { operationId: res.insertId, ...operation });
+            result(null, { operationId: res.insertId, operationUserId, ...operation });
         }
     );
 };
@@ -44,10 +44,10 @@ Operation.findByOperationId = (operationId, result) => {
     );
 };
 
-Operation.getAllByUserId = (userId, result) => {
+Operation.getAllByUserId = (operationUserId, result) => {
     sql.query(
         GET_ALL_BY_USER_ID,
-        userId,
+        operationUserId,
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
@@ -59,10 +59,10 @@ Operation.getAllByUserId = (userId, result) => {
     );
 };
 
-Operation.getAllByUserIdAndOperationTypeId = (userId, operationTypeId, result) => {
+Operation.getAllByUserIdAndOperationTypeId = (operationUserId, operationTypeId, result) => {
     sql.query(
         GET_ALL_BY_USER_ID_AND_OPERATION_TYPE_ID,
-        [userId, operationTypeId],
+        [operationUserId, operationTypeId],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
@@ -77,7 +77,7 @@ Operation.getAllByUserIdAndOperationTypeId = (userId, operationTypeId, result) =
 Operation.updateByOperationId = (operationId, operation, result) => {
     sql.query(
         UPDATE_BY_OPERATION_ID,
-        [operation.productId, operation.count, operation.operationTypeId, operation.storeId, operationId],
+        [operation.operationProductId, operation.operationCount, operation.operationOperationTypeId, operation.operationStoreId, operationId],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);

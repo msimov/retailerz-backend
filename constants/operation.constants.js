@@ -29,7 +29,7 @@ LEFT JOIN retailerz.users AS usersTable \
 ON operationsTable.user_id = usersTable.id \
 LEFT JOIN retailerz.products AS productsTable \
 ON operationsTable.product_id = productsTable.id \
-LEFT JOIN retailerz.operationTypes AS operationTypesTable \
+LEFT JOIN retailerz.operation_types AS operationTypesTable \
 ON operationsTable.operation_type_id = operationTypesTable.id \
 LEFT JOIN retailerz.stores AS storesTable \
 ON operationsTable.store_id = storesTable.id \
@@ -43,7 +43,7 @@ LEFT JOIN retailerz.users AS usersTable \
 ON operationsTable.user_id = usersTable.id \
 LEFT JOIN retailerz.products AS productsTable \
 ON operationsTable.product_id = productsTable.id \
-LEFT JOIN retailerz.operationTypes AS operationTypesTable \
+LEFT JOIN retailerz.operation_types AS operationTypesTable \
 ON operationsTable.operation_type_id = operationTypesTable.id \
 LEFT JOIN retailerz.stores AS storesTable \
 ON operationsTable.store_id = storesTable.id \
@@ -57,7 +57,7 @@ LEFT JOIN retailerz.users AS usersTable \
 ON operationsTable.user_id = usersTable.id \
 LEFT JOIN retailerz.products AS productsTable \
 ON operationsTable.product_id = productsTable.id \
-LEFT JOIN retailerz.operationTypes AS operationTypesTable \
+LEFT JOIN retailerz.operation_types AS operationTypesTable \
 ON operationsTable.operation_type_id = operationTypesTable.id \
 LEFT JOIN retailerz.stores AS storesTable \
 ON operationsTable.store_id = storesTable.id \

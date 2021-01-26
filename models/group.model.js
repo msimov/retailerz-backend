@@ -4,20 +4,21 @@ const sql = require('./db');
 
 const Group = function(group) {
     this.groupId = group.groupId;
-    this.name = group.name;
+    this.groupUserId = group.groupUserId;
+    this.groupName = group.groupName;
 };
 
-Group.create = (userId, group, result) => {
+Group.create = (groupUserId, group, result) => {
     sql.query(
         CREATE,
-        [userId, group.name],
+        [groupUserId, group.groupName],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
                 result(err, null);
                 return;
             }
-            result(null, { groupId: res.insertId, ...group });
+            result(null, { groupId: res.insertId, groupUserId, ...group });
         }
     );
 };
@@ -41,10 +42,10 @@ Group.findByGroupId = (groupId, result) => {
     );
 };
 
-Group.getAllByUserId = (userId, result) => {
+Group.getAllByUserId = (groupUserId, result) => {
     sql.query(
         GET_ALL_BY_USER_ID,
-        userId,
+        groupUserId,
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
@@ -59,7 +60,7 @@ Group.getAllByUserId = (userId, result) => {
 Group.updateByGroupId = (groupId, group, result) => {
     sql.query(
         UPDATE_BY_GROUP_ID,
-        [group.name, groupId],
+        [group.groupName, groupId],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
