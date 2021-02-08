@@ -63,7 +63,7 @@ exports.getAllByUserId = (req, res) => {
 exports.getAllByUserIdAndOperationTypeId = (req, res) => {
     Operation.getAllByUserIdAndOperationTypeId(
         req.params.userId,
-        req.body.operationTypeId,
+        req.params.operationTypeId,
         (err, data) => {
             if(err) {
                 res.status(500).send({

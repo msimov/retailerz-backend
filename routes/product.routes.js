@@ -9,6 +9,8 @@ module.exports = app => {
 
     app.get("/users/:userId/products", products.getAllByUserId);
 
+    app.get("/users/:userId/products/recommended", products.getAllRecommendedByUserId);
+
     app.put("/products/:productId", products.updateByProductId);
 
     app.delete("/products/:productId", products.deleteByProductId);

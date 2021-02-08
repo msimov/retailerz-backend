@@ -5,12 +5,14 @@ const Store = function(store) {
     this.storeId = store.storeId;
     this.storeUserId = store.storeUserId;
     this.storeLocation = store.storeLocation;
+    this.storeLat = store.storeLat;
+    this.storeLng = store.stoteLng;
 }
 
 Store.create = (storeUserId, store, result) => {
     sql.query(
         CREATE,
-        [storeUserId, store.storeLocation],
+        [storeUserId, store.storeLocation, store.storeLat, store.storeLng],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
@@ -59,7 +61,7 @@ Store.getAllByUserId = (storeUserId, result) => {
 Store.updateByStoreId = (storeId, store, result) => {
     sql.query(
         UPDATE_BY_STORE_ID,
-        [store.storeLocation, storeId],
+        [store.storeLocation, store.storeLat, store.storeLng, storeId],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);

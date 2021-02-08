@@ -7,7 +7,7 @@ module.exports = app => {
 
     app.get("/users/:userId/operations", operations.getAllByUserId);
 
-    app.get("/users/:userId/operations", operations.getAllByUserIdAndOperationTypeId);
+    app.get("/users/:userId/operations/:operationTypeId", operations.getAllByUserIdAndOperationTypeId);
 
     app.get("/users/:userId/inventory", operations.getInventory);
 

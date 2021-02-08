@@ -82,6 +82,22 @@ exports.getAllByUserId = (req, res) => {
     });
 };
 
+exports.getAllRecommendedByUserId = (req, res) => {
+    Product.getAllRecommendedByUserId(
+        req.params.userId,
+        (err, data) => {
+            if(err) {
+                res.status(500).send({
+                    message:
+                        err.message || "Error."
+                });
+            } else {
+                res.send(data);
+            }
+        }
+    )
+}
+
 exports.updateByProductId = (req, res) => {
     if (!req.body) {
         res.status(400).send({

@@ -1,4 +1,4 @@
-const { CREATE, FIND_BY_PRODUCT_ID, FIND_BY_KEYOWОRD, GET_ALL_BY_USER_ID, UPDATE_BY_PRODUCT_ID, DELETE_BY_PRODUCT_ID } = require('../constants/product.constants');
+const { CREATE, FIND_BY_PRODUCT_ID, FIND_BY_KEYOWОRD, GET_ALL_BY_USER_ID, UPDATE_BY_PRODUCT_ID, DELETE_BY_PRODUCT_ID, GET_ALL_RECOMMENDED_BY_USER_ID } = require('../constants/product.constants');
 const sql = require('./db');
 
 const Product = function(product) {
@@ -73,6 +73,19 @@ Product.getAllByUserId = (operationUserId, result) => {
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
+                result(err, null);
+                return;
+            }
+            result(null, res);
+        }
+    );
+};
+
+Product.getAllRecommendedByUserId = (userId, result) => {
+    sql.query(
+        GET_ALL_RECOMMENDED_BY_USER_ID(userId),
+        (err, res) => {
+            if(err) {
                 result(err, null);
                 return;
             }
