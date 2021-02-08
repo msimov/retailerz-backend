@@ -5,14 +5,13 @@ const User = function(user) {
     this.userId = user.userId;
     this.userFirstName = user.userFirstName;
     this.userLastName = user.userLastName;
-    this.userEmail = user.userEmail;
     this.userUserTypeId = user.userUserTypeId;
 };
 
 User.create = (user, result) => {
     sql.query(
         CREATE,
-        [user.userId, user.userFirstName, user.userLastName, user.userEmail, user.userUserTypeId],
+        [user.userId, user.userFirstName, user.userLastName, user.userUserTypeId],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
@@ -62,7 +61,7 @@ User.getAll = result => {
 User.updateByUserId = (userId, user, result) => {
     sql.query(
         UPDATE_BY_USER_ID,
-        [user.userFirstName, user.userLastName, user.userEmail, userId],
+        [user.userFirstName, user.userLastName, userId],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
