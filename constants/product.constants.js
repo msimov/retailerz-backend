@@ -42,7 +42,7 @@ ON productsTable.tax_group_id = taxGroupsTable.id \
 WHERE productsTable.id = ?\
 `
 
-exports.FIND_BY_KEYOWОRD = (keyword) => `\
+exports.SEARCH = (search) => `\
 SELECT ${this.COLUMNS}, ${USER_COLUMNS}, ${GROUP_COLUMNS}, ${MEASURE_UNIT_COLUMNS}, ${TAX_GROUP_COLUMNS} \
 FROM retailerz.products AS productsTable \
 LEFT JOIN retailerz.users AS usersTable \
@@ -53,12 +53,11 @@ LEFT JOIN retailerz.measure_units AS measureUnitsTable \
 ON productsTable.measure_unit_id = measureUnitsTable.id \
 LEFT JOIN retailerz.tax_groups AS taxGroupsTable \
 ON productsTable.tax_group_id = taxGroupsTable.id \
-WHERE productsTable.name LIKE "%${keyword}%" \
-OR productsTable.barcode LIKE "%${keyword}%" \
-OR usersTable.first_name LIKE "%${keyword}%" \
-OR usersTable.last_name LIKE "%${keyword}%" \
-OR usersTable.email LIKE "%${keyword}%" \
-OR groupsTable.name LIKE "%${keyword}%"\
+WHERE productsTable.name LIKE "%${search}%" \
+OR productsTable.barcode LIKE "%${search}%" \
+OR usersTable.first_name LIKE "%${search}%" \
+OR usersTable.last_name LIKE "%${search}%" \
+OR groupsTable.name LIKE "%${search}%"\
 `
 
 exports.GET_ALL_BY_USER_ID = `\

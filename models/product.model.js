@@ -1,4 +1,4 @@
-const { CREATE, FIND_BY_PRODUCT_ID, FIND_BY_KEYOWОRD, GET_ALL_BY_USER_ID, UPDATE_BY_PRODUCT_ID, DELETE_BY_PRODUCT_ID, GET_ALL_RECOMMENDED_BY_USER_ID } = require('../constants/product.constants');
+const { CREATE, FIND_BY_PRODUCT_ID, SEARCH, GET_ALL_BY_USER_ID, UPDATE_BY_PRODUCT_ID, DELETE_BY_PRODUCT_ID, GET_ALL_RECOMMENDED_BY_USER_ID } = require('../constants/product.constants');
 const sql = require('./db');
 
 const Product = function(product) {
@@ -52,9 +52,9 @@ Product.findByProductId = (productId, result) => {
     );
 };
 
-Product.findByKeyword = (keyword, result) => {
+Product.search = (search, result) => {
     sql.query(
-        FIND_BY_KEYOWОRD(keyword),
+        SEARCH(search),
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);

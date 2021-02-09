@@ -1,7 +1,7 @@
 module.exports = app => {
     const products = require("../controllers/product.controller");
 
-    app.get("/products", products.findByKeyword);
+    app.get("/products", products.search);
 
     app.post("/users/:userId/products", products.create);
 

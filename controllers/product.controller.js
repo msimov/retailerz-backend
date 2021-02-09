@@ -45,9 +45,9 @@ exports.findByProductId = (req, res) => {
     );
 };
 
-exports.findByKeyword = (req, res) => {
-    Product.findByKeyword(
-        req.query.keyword,
+exports.search = (req, res) => {
+    Product.search(
+        req.query.search,
         (err, data) => {
             if(err) {
                 if(err.kind === "not_found") {
