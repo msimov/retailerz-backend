@@ -11,7 +11,6 @@ const TAX_GROUP_COLUMNS = taxGroupConstants.COLUMNS
 exports.COLUMNS = `\
 productsTable.id AS productId, \
 productsTable.group_id AS productGroupId, \
-productsTable.code AS productCode, \
 productsTable.barcode AS productBarcode, \
 productsTable.measure_unit_id AS productMeasureUnitId, \
 productsTable.tax_group_id AS productTaxGroupId, \
@@ -24,8 +23,8 @@ productsTable.user_id AS productUserId\
 
 exports.CREATE = `\
 INSERT INTO retailerz.products \
-(user_id, group_id, code, barcode, measure_unit_id, tax_group_id, retail_price, delivery_price, name, description) \
-VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)\
+(user_id, group_id, barcode, measure_unit_id, tax_group_id, retail_price, delivery_price, name, description) \
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)\
 `
 
 exports.FIND_BY_PRODUCT_ID = `\
@@ -130,7 +129,7 @@ ON productsTable.tax_group_id = taxGroupsTable.id\
 
 exports.UPDATE_BY_PRODUCT_ID = `\
 UPDATE retailerz.products SET \
-group_id = ?, code = ?, barcode = ?, measure_unit_id = ?, tax_group_id = ?, retail_price = ?, \
+group_id = ?, barcode = ?, measure_unit_id = ?, tax_group_id = ?, retail_price = ?, \
 delivery_price = ?, name = ?, description = ? \
 WHERE id = ?\
 `

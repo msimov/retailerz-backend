@@ -5,7 +5,6 @@ const Product = function(product) {
     this.productId = product.productId;
     this.productUserId = product.productUserId;
     this.productGroupId = product.productGroupId;
-    this.productCode = product.productCode;
     this.productBarcode = product.productBarcode;
     this.productMeasureUnitId = product.productMeasureUnitId;
     this.productTaxGroupId = product.productTaxGroupId;
@@ -19,7 +18,7 @@ Product.create = (operationUserId, product, result) => {
     sql.query(
         CREATE,
         [
-            operationUserId, product.productGroupId, product.productCode, product.productBarcode, product.productMeasureUnitId, 
+            operationUserId, product.productGroupId, product.productBarcode, product.productMeasureUnitId, 
             product.productTaxGroupId, product.productRetailPrice, product.productDeliveryPrice, product.productName, product.productDescription
         ],
         (err, res) => {
@@ -98,7 +97,7 @@ Product.updateByProductId = (productId, product, result) => {
     sql.query(
         UPDATE_BY_PRODUCT_ID,
         [
-            product.productGroupId, product.productCode, product.productBarcode, product.productMeasureUnitId, product.productTaxGroupId,
+            product.productGroupId, product.productBarcode, product.productMeasureUnitId, product.productTaxGroupId,
             product.productRetailPrice, product.productDeliveryPrice, product.productName, product.productDescription, productId
         ],
         (err, res) => {
