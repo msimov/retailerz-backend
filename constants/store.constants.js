@@ -3,15 +3,16 @@ const USER_COLUMNS = userConstants.COLUMNS
 
 exports.COLUMNS = `\
 storesTable.id AS storeId, \
-storesTable.location AS storeLocation, \
+storesTable.name AS storeName, \
+storesTable.address AS storeAddress, \
 storesTable.user_id AS storeUserId, \
 storesTable.lat AS storeLat, \
 storesTable.lng AS storeLng\
 `
 
 exports.CREATE = `\
-INSERT INTO retailerz.stores (user_id, location, lat, lng) \
-VALUES (?, ?, ?, ?)\
+INSERT INTO retailerz.stores (user_id, name, address, lat, lng) \
+VALUES (?, ?, ?, ?, ?)\
 `
 
 exports.FIND_BY_STORE_ID = `\
@@ -32,7 +33,7 @@ WHERE storesTable.user_id = ?\
 
 exports.UPDATE_BY_STORE_ID = `\
 UPDATE retailerz.stores \
-SET location = ?, lat = ?, lng = ? \
+SET name = ?, address = ?, lat = ?, lng = ? \
 WHERE id = ?\
 `
 

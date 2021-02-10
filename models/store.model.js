@@ -4,7 +4,8 @@ const sql = require('./db');
 const Store = function(store) {
     this.storeId = store.storeId;
     this.storeUserId = store.storeUserId;
-    this.storeLocation = store.storeLocation;
+    this.storeName = store.storeName;
+    this.storeAddress = store.address;
     this.storeLat = store.storeLat;
     this.storeLng = store.stoteLng;
 }
@@ -12,7 +13,7 @@ const Store = function(store) {
 Store.create = (storeUserId, store, result) => {
     sql.query(
         CREATE,
-        [storeUserId, store.storeLocation, store.storeLat, store.storeLng],
+        [storeUserId, store.storeName, store.storeAddress, store.storeLat, store.storeLng],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
@@ -61,7 +62,7 @@ Store.getAllByUserId = (storeUserId, result) => {
 Store.updateByStoreId = (storeId, store, result) => {
     sql.query(
         UPDATE_BY_STORE_ID,
-        [store.storeLocation, store.storeLat, store.storeLng, storeId],
+        [store.storeName, store.storeAddress, store.storeLat, store.storeLng, storeId],
         (err, res) => {
             if(err) {
                 console.log("Error: ", err);
