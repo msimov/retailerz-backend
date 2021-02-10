@@ -125,7 +125,6 @@ CREATE TABLE `operations` (
 
 LOCK TABLES `operations` WRITE;
 /*!40000 ALTER TABLE `operations` DISABLE KEYS */;
-INSERT INTO `operations` VALUES (80,'W7cjp6aNyVeHAonfPrjWdM2aUXU2',19,NULL,6,NULL),(81,'W7cjp6aNyVeHAonfPrjWdM2aUXU2',19,NULL,6,NULL),(82,'W7cjp6aNyVeHAonfPrjWdM2aUXU2',19,NULL,6,NULL),(83,'W7cjp6aNyVeHAonfPrjWdM2aUXU2',20,NULL,6,NULL),(84,'W7cjp6aNyVeHAonfPrjWdM2aUXU2',20,NULL,5,43),(85,'W7cjp6aNyVeHAonfPrjWdM2aUXU2',20,NULL,6,NULL),(86,'W7cjp6aNyVeHAonfPrjWdM2aUXU2',20,NULL,5,43),(87,'W7cjp6aNyVeHAonfPrjWdM2aUXU2',20,NULL,6,NULL),(88,'W7cjp6aNyVeHAonfPrjWdM2aUXU2',20,NULL,6,NULL),(89,'W7cjp6aNyVeHAonfPrjWdM2aUXU2',20,NULL,6,NULL),(90,'W7cjp6aNyVeHAonfPrjWdM2aUXU2',20,3,5,43),(91,'W7cjp6aNyVeHAonfPrjWdM2aUXU2',20,NULL,6,NULL),(92,'ef0EPFaobCOBJvlTyhC2AiB9sng1',20,NULL,6,NULL),(93,'ef0EPFaobCOBJvlTyhC2AiB9sng1',20,3,5,43),(94,'ef0EPFaobCOBJvlTyhC2AiB9sng1',20,NULL,6,NULL);
 /*!40000 ALTER TABLE `operations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -165,7 +164,6 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` VALUES (19,1,'03213111',1,1,1.99,1.33,'Apple','Apple','ogrsAQbgIXfNMM2V7dV0QeSvcmA3'),(20,20,'33213123121',16,1,1.99,1.33,'Apple','Apple','W7cjp6aNyVeHAonfPrjWdM2aUXU2');
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -178,14 +176,15 @@ DROP TABLE IF EXISTS `stores`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `stores` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `location` varchar(255) NOT NULL,
   `user_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `lat` decimal(9,6) NOT NULL,
   `lng` decimal(8,6) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `address` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `stores_FK_1` (`user_id`),
   CONSTRAINT `stores_FK_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -194,7 +193,7 @@ CREATE TABLE `stores` (
 
 LOCK TABLES `stores` WRITE;
 /*!40000 ALTER TABLE `stores` DISABLE KEYS */;
-INSERT INTO `stores` VALUES (42,'Lulin 7, Bl.743','ogrsAQbgIXfNMM2V7dV0QeSvcmA3',42.710822,23.268095),(43,'Lulin','W7cjp6aNyVeHAonfPrjWdM2aUXU2',42.710681,23.267284);
+INSERT INTO `stores` VALUES (44,'W7cjp6aNyVeHAonfPrjWdM2aUXU2',42.710942,23.268227,'Selmart','G.K. Lyulin 7 742А, 1324 zh.k. Lyulin 7, Sofia, Bulgaria'),(46,'W7cjp6aNyVeHAonfPrjWdM2aUXU2',42.719578,23.256434,'Billa','bul. \"Tsaritsa Yoanna\" 72, 1324 zh.k. Lyulin 8, Sofia, Bulgaria'),(47,'W7cjp6aNyVeHAonfPrjWdM2aUXU2',42.719580,23.256431,'Billa','bul. \"Tsaritsa Yoanna\" 72, 1324 zh.k. Lyulin 8, Sofia, Bulgaria');
 /*!40000 ALTER TABLE `stores` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -223,7 +222,6 @@ CREATE TABLE `stores_products` (
 
 LOCK TABLES `stores_products` WRITE;
 /*!40000 ALTER TABLE `stores_products` DISABLE KEYS */;
-INSERT INTO `stores_products` VALUES (20,43,20);
 /*!40000 ALTER TABLE `stores_products` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -316,4 +314,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-02-10  1:14:06
+-- Dump completed on 2021-02-10 16:16:18
