@@ -84,7 +84,13 @@ ON operationsTable.store_id = storesTable.id \
 WHERE (\
 CASE \
 WHEN operationTypesTable.name = "ADD_TO_CART" THEN 1 \
-WHEN operationTypesTable.name != "ADD_TO_CART" AND operationsTable.user_id = ? THEN 1 \
+WHEN \
+operationTypesTable.name != "ADD_TO_CART" \
+AND (operationTypesTable.name = "SALE" \
+OR operationTypesTable.name = "DELIVERY" \
+OR operationTypesTable.name = "REFUND") \
+AND operationsTable.user_id = ?
+THEN 1 \
 ELSE 0 END\
 ) \
 GROUP BY operationsTable.product_id, operationsTable.store_id\
