@@ -2,11 +2,13 @@ const userConstants = require("./user.constants")
 const productConstants = require("./product.constants")
 const operationTypeConstants = require("./operation-type.constants")
 const storeConstants = require("./store.constants")
+const measureUnitConstants = require("./measure-unit.constants")
 
 const USER_COLUMNS = userConstants.COLUMNS
 const PRODUCT_COLUMNS = productConstants.COLUMNS
 const OPERATION_TYPE_COLUMNS = operationTypeConstants.COLUMNS
 const STORE_COLUMNS = storeConstants.COLUMNS
+const MEASURE_UNIT_COLUMNS = measureUnitConstants.COLUMNS
 
 exports.COLUMNS = `\
 operationsTable.id AS operationId, \
@@ -37,7 +39,7 @@ WHERE operationsTable.id = ?\
 `
 
 exports.GET_ALL_BY_USER_ID = `\
-SELECT ${this.COLUMNS}, ${USER_COLUMNS}, ${PRODUCT_COLUMNS}, ${OPERATION_TYPE_COLUMNS}, ${STORE_COLUMNS} \
+SELECT ${this.COLUMNS}, ${USER_COLUMNS}, ${PRODUCT_COLUMNS}, ${OPERATION_TYPE_COLUMNS}, ${STORE_COLUMNS}, ${MEASURE_UNIT_COLUMNS} \
 FROM retailerz.operations AS operationsTable \
 LEFT JOIN retailerz.users AS usersTable \
 ON operationsTable.user_id = usersTable.id \
@@ -47,6 +49,8 @@ LEFT JOIN retailerz.operation_types AS operationTypesTable \
 ON operationsTable.operation_type_id = operationTypesTable.id \
 LEFT JOIN retailerz.stores AS storesTable \
 ON operationsTable.store_id = storesTable.id \
+LEFT JOIN retailerz.measure_units AS measureUnitsTable \
+ON measureUnitsTable.id = productsTable.measure_unit_id \
 WHERE operationsTable.user_id = ?\
 `
 
@@ -86,10 +90,7 @@ CASE \
 WHEN operationTypesTable.name = "ADD_TO_CART" THEN 1 \
 WHEN \
 operationTypesTable.name != "ADD_TO_CART" \
-AND (operationTypesTable.name = "SALE" \
-OR operationTypesTable.name = "DELIVERY" \
-OR operationTypesTable.name = "REFUND") \
-AND operationsTable.user_id = ?
+AND operationsTable.user_id = ? \
 THEN 1 \
 ELSE 0 END\
 ) \

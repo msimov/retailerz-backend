@@ -20,6 +20,8 @@ require("./routes/measure-unit.routes")(app);
 require("./routes/tax-group.routes")(app);
 require("./routes/operation.routes")(app);
 require("./routes/operation-type.routes")(app);
+require("./routes/activity.routes")(app);   
+require("./routes/activity-type.routes")(app);
 require("./routes/store-product.routes")(app);
 
 

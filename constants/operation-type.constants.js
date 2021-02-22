@@ -6,7 +6,7 @@ operationTypesTable.name AS operationTypeName\
 exports.FIND_BY_OPERATION_TYPE_ID = `\
 SELECT ${this.COLUMNS} \
 FROM retailerz.operation_types AS operationTypesTable \
-WHERE measureUnitsTable.id = ?\
+WHERE operationTypesTable.id = ?\
 `
 
 exports.GET_ALL = `\
