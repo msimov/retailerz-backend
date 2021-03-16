@@ -141,3 +141,7 @@ exports.deleteByOperationId = (req, res) => {
         }
     );
 }
+
+exports.deleteByExpiredTime = () => {
+    Operation.deleteByExpiredTime();
+}

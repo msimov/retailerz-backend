@@ -1,8 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-
-
+const cron = require('node-cron');
 const app = express();
 
 app.use(cors());
@@ -24,7 +23,8 @@ require("./routes/activity.routes")(app);
 require("./routes/activity-type.routes")(app);
 require("./routes/store-product.routes")(app);
 
-
+require("./tasks/deleteExpired.task")(cron);
+console.log(typeof app.listen)
 app.listen(3001, () => {
     console.log("Server is running on PORT 3001");
 });

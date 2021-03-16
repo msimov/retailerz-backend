@@ -20,8 +20,8 @@ operationsTable.store_id AS operationStoreId\
 `
 
 exports.CREATE = `\
-INSERT INTO retailerz.operations (user_id, product_id, count, operation_type_id, store_id) \
-VALUES (?, ?, ?, ?, ?)\
+INSERT INTO retailerz.operations (user_id, product_id, count, operation_type_id, store_id, creation_datetime) \
+VALUES (?, ?, ?, ?, ?, NOW())\
 `
 
 exports.FIND_BY_OPERATION_ID = `\
@@ -106,4 +106,12 @@ WHERE id = ?\
 exports.DELETE_BY_OPERATION_ID = `\
 DELETE FROM retailerz.operations \
 WHERE id = ?\
+`
+
+exports.DELETE_BY_EXPIRED_TIME = `\
+DELETE retailerz.operations FROM retailerz.operations \
+LEFT JOIN retailerz.operation_types as operationTypesTable \
+ON operation_type_id = operationTypesTable.id \
+WHERE creation_datetime <= DATE_SUB(NOW(), INTERVAL 1 HOUR) \
+AND operationTypesTable.name = "ADD_TO_CART"\
 `

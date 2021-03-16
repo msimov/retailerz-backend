@@ -1,4 +1,4 @@
-const { CREATE, FIND_BY_OPERATION_ID, GET_ALL_BY_USER_ID, GET_ALL_BY_USER_ID_AND_OPERATION_TYPE_ID, UPDATE_BY_OPERATION_ID, DELETE_BY_OPERATION_ID, GET_ALL_BY_PRODUCT_ID_AND_OPERATION_TYPE_ID, GET_INVENTORY } = require('../constants/operation.constants');
+const { CREATE, FIND_BY_OPERATION_ID, GET_ALL_BY_USER_ID, GET_ALL_BY_USER_ID_AND_OPERATION_TYPE_ID, UPDATE_BY_OPERATION_ID, DELETE_BY_OPERATION_ID, GET_ALL_BY_PRODUCT_ID_AND_OPERATION_TYPE_ID, GET_INVENTORY, DELETE_BY_EXPIRED_TIME } = require('../constants/operation.constants');
 const sql = require('./db');
 
 const Operation = function(operation) {
@@ -126,6 +126,10 @@ Operation.deleteByOperationId = (operationId, result) => {
             result(null, operationId);
         }
     );
+}
+
+Operation.deleteByExpiredTime = () => {
+    sql.query(DELETE_BY_EXPIRED_TIME);
 }
 
 module.exports = Operation

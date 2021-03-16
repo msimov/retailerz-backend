@@ -1,4 +1,5 @@
 const { CREATE, FIND_BY_MEASURE_UNIT_ID, GET_ALL_BY_USER_ID, UPDATE_BY_MEASURE_UNIT_ID, DELETE_BY_MEASURE_UNIT_ID } = require('../constants/measure-unit.constants');
+const { TOTAL_PROFIT, TOTAL_PROFIT_FOR_STORE, PROFIT_BY_PRODUCTS, PROFIT_BY_PRODUCTS_FOR_STORE, MOST_SEARCHED_PRODUCT, SALES_BY_DATES, QUANTITY_SOLD_BY_PRODUCTS, DELIVERIES_BY_PRODUCT_GROUPS } = require('../constants/reports.constants');
 const sql = require('./db');
 
 const MeasureUnit = function(measureUnit) {
@@ -8,9 +9,10 @@ const MeasureUnit = function(measureUnit) {
 
 MeasureUnit.create = (measureUnitUserId, measureUnit, result) => {
     sql.query(
-        CREATE,
-        [measureUnitUserId, measureUnit.measureUnitName],
+        DELIVERIES_BY_PRODUCT_GROUPS,
+        [measureUnitUserId, measureUnit.name],
         (err, res) => {
+            console.log(res)
             if(err) {
                 console.log("Error: ", err);
                 result(err, null);
