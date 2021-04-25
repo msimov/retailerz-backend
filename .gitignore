@@ -25,6 +25,3 @@ coverage
 
 # Benchmarking
 benchmarks/graphs
-
-#config
-config/
