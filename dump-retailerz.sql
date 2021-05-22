@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.23, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.22, for macos10.15 (x86_64)
 --
 -- Host: localhost    Database: retailerz
 -- ------------------------------------------------------
--- Server version	8.0.23
+-- Server version	8.0.22
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -34,7 +34,7 @@ CREATE TABLE `activities` (
   CONSTRAINT `activities_FK` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `activities_FK_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
   CONSTRAINT `activities_FK_2` FOREIGN KEY (`activity_type_id`) REFERENCES `activity_types` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,7 +43,7 @@ CREATE TABLE `activities` (
 
 LOCK TABLES `activities` WRITE;
 /*!40000 ALTER TABLE `activities` DISABLE KEYS */;
-INSERT INTO `activities` VALUES (1,'W7cjp6aNyVeHAonfPrjWdM2aUXU2',24,1),(2,'W7cjp6aNyVeHAonfPrjWdM2aUXU2',24,1),(3,'W7cjp6aNyVeHAonfPrjWdM2aUXU2',24,1),(4,'W7cjp6aNyVeHAonfPrjWdM2aUXU2',24,1),(5,'ogrsAQbgIXfNMM2V7dV0QeSvcmA3',24,1),(6,'W7cjp6aNyVeHAonfPrjWdM2aUXU2',24,1),(7,'ogrsAQbgIXfNMM2V7dV0QeSvcmA3',24,1),(8,'ogrsAQbgIXfNMM2V7dV0QeSvcmA3',24,1),(10,'W7cjp6aNyVeHAonfPrjWdM2aUXU2',24,1),(11,'W7cjp6aNyVeHAonfPrjWdM2aUXU2',24,1),(12,'W7cjp6aNyVeHAonfPrjWdM2aUXU2',24,1),(13,'W7cjp6aNyVeHAonfPrjWdM2aUXU2',24,1),(14,'W7cjp6aNyVeHAonfPrjWdM2aUXU2',24,1),(15,'W7cjp6aNyVeHAonfPrjWdM2aUXU2',24,1),(16,'W7cjp6aNyVeHAonfPrjWdM2aUXU2',25,1),(17,'W7cjp6aNyVeHAonfPrjWdM2aUXU2',24,1),(18,'W7cjp6aNyVeHAonfPrjWdM2aUXU2',24,1),(19,'W7cjp6aNyVeHAonfPrjWdM2aUXU2',24,1),(20,'W7cjp6aNyVeHAonfPrjWdM2aUXU2',24,1);
+INSERT INTO `activities` VALUES (1,'W7cjp6aNyVeHAonfPrjWdM2aUXU2',24,1),(2,'W7cjp6aNyVeHAonfPrjWdM2aUXU2',24,1),(3,'W7cjp6aNyVeHAonfPrjWdM2aUXU2',24,1),(4,'W7cjp6aNyVeHAonfPrjWdM2aUXU2',24,1),(5,'ogrsAQbgIXfNMM2V7dV0QeSvcmA3',24,1),(6,'W7cjp6aNyVeHAonfPrjWdM2aUXU2',24,1),(7,'ogrsAQbgIXfNMM2V7dV0QeSvcmA3',24,1),(8,'ogrsAQbgIXfNMM2V7dV0QeSvcmA3',24,1),(10,'W7cjp6aNyVeHAonfPrjWdM2aUXU2',24,1),(11,'W7cjp6aNyVeHAonfPrjWdM2aUXU2',24,1),(12,'W7cjp6aNyVeHAonfPrjWdM2aUXU2',24,1),(13,'W7cjp6aNyVeHAonfPrjWdM2aUXU2',24,1),(14,'W7cjp6aNyVeHAonfPrjWdM2aUXU2',24,1),(15,'W7cjp6aNyVeHAonfPrjWdM2aUXU2',24,1),(16,'W7cjp6aNyVeHAonfPrjWdM2aUXU2',25,1),(17,'W7cjp6aNyVeHAonfPrjWdM2aUXU2',24,1),(18,'W7cjp6aNyVeHAonfPrjWdM2aUXU2',24,1),(19,'W7cjp6aNyVeHAonfPrjWdM2aUXU2',24,1),(20,'W7cjp6aNyVeHAonfPrjWdM2aUXU2',24,1),(21,'W7cjp6aNyVeHAonfPrjWdM2aUXU2',24,1),(22,'W7cjp6aNyVeHAonfPrjWdM2aUXU2',24,1);
 /*!40000 ALTER TABLE `activities` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -196,7 +196,7 @@ CREATE TABLE `operations` (
   CONSTRAINT `operations_FK_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
   CONSTRAINT `operations_FK_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `operations_FK_3` FOREIGN KEY (`store_id`) REFERENCES `stores` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=123 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=124 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -397,4 +397,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-03-16  9:02:42
+-- Dump completed on 2021-05-22 17:09:18

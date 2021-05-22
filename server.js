@@ -24,7 +24,7 @@ require("./routes/activity-type.routes")(app);
 require("./routes/store-product.routes")(app);
 
 require("./tasks/deleteExpired.task")(cron);
-console.log(typeof app.listen)
+
 app.listen(3001, () => {
     console.log("Server is running on PORT 3001");
 });
