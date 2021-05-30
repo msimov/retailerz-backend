@@ -1,6 +1,5 @@
-module.exports = app => {
-    const activityTypes = require("../controllers/activity-type.controller");
+module.exports = (app) => {
+  const activityTypes = require("../controllers/activity-type.controller");
 
-    app.get("/activity-types", activityTypes.getAll);
-
-}
+  app.get("/activity-types", activityTypes.getAll);
+};
