@@ -1,9 +1,7 @@
-module.exports = app => {
-    const userTypes = require("../controllers/user-type.controller");
+module.exports = (app) => {
+  const userTypes = require("../controllers/user-type.controller");
 
+  app.get("/user-types/:userTypeId", userTypes.findByUserTypeId);
 
-    app.get("/user-types/:userTypeId", userTypes.findByUserTypeId);
-
-    app.get("/user-types", userTypes.getAll);
-
-}
+  app.get("/user-types", userTypes.getAll);
+};

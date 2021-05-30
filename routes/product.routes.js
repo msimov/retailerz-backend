@@ -1,17 +1,22 @@
-module.exports = app => {
-    const products = require("../controllers/product.controller");
+module.exports = (app) => {
+  const products = require("../controllers/product.controller");
+  const isAuth = require("../middlewares/auth.middleware");
 
-    app.get("/products", products.search);
+  app.get("/products", isAuth, products.search);
 
-    app.post("/users/:userId/products", products.create);
+  app.post("/users/:userId/products", isAuth, products.create);
 
-    app.get("/products/:productId", products.findByProductId);
+  app.get("/products/:productId", isAuth, products.findByProductId);
 
-    app.get("/users/:userId/products", products.getAllByUserId);
+  app.get("/users/:userId/products", isAuth, products.getAllByUserId);
 
-    app.get("/users/:userId/products/recommended", products.getAllRecommendedByUserId);
+  app.get(
+    "/users/:userId/products/recommended",
+    isAuth,
+    products.getAllRecommendedByUserId
+  );
 
-    app.put("/products/:productId", products.updateByProductId);
+  app.put("/products/:productId", isAuth, products.updateByProductId);
 
-    app.delete("/products/:productId", products.deleteByProductId);
-}
+  app.delete("/products/:productId", isAuth, products.deleteByProductId);
+};

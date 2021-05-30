@@ -1,13 +1,14 @@
-module.exports = app => {
-    const groups = require("../controllers/group.controller");
+module.exports = (app) => {
+  const groups = require("../controllers/group.controller");
+  const isAuth = require("../middlewares/auth.middleware");
 
-    app.post("/users/:userId/groups", groups.create);
+  app.post("/users/:userId/groups", isAuth, groups.create);
 
-    app.get("/groups/:groupId", groups.findByGroupId);
+  app.get("/groups/:groupId", isAuth, groups.findByGroupId);
 
-    app.get("/users/:userId/groups", groups.getAllByUserId);
+  app.get("/users/:userId/groups", isAuth, groups.getAllByUserId);
 
-    app.put("/groups/:groupId", groups.updateByGroupId);
+  app.put("/groups/:groupId", isAuth, groups.updateByGroupId);
 
-    app.delete("/groups/:groupId", groups.deleteByGroupId);
-}
+  app.delete("/groups/:groupId", isAuth, groups.deleteByGroupId);
+};

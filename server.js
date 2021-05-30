@@ -1,7 +1,7 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const cron = require('node-cron');
+const express = require("express");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+const cron = require("node-cron");
 const app = express();
 
 app.use(cors());
@@ -19,12 +19,13 @@ require("./routes/measure-unit.routes")(app);
 require("./routes/tax-group.routes")(app);
 require("./routes/operation.routes")(app);
 require("./routes/operation-type.routes")(app);
-require("./routes/activity.routes")(app);   
+require("./routes/activity.routes")(app);
 require("./routes/activity-type.routes")(app);
 require("./routes/store-product.routes")(app);
+require("./routes/report.routes")(app);
 
 require("./tasks/deleteExpired.task")(cron);
 
 app.listen(3001, () => {
-    console.log("Server is running on PORT 3001");
+  console.log("Server is running on PORT 3001");
 });

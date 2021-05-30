@@ -1,13 +1,14 @@
-module.exports = app => {
-    const users = require("../controllers/user.controller");
+module.exports = (app) => {
+  const users = require("../controllers/user.controller");
+  const isAuth = require("../middlewares/auth.middleware");
 
-    app.post("/users", users.create);
+  app.post("/users", isAuth, users.create);
 
-    app.get("/users/:userId", users.findByUserId);
+  app.get("/users/:userId", isAuth, users.findByUserId);
 
-    app.get("/users", users.getAll);
+  app.get("/users", isAuth, users.getAll);
 
-    app.put("/users/:userId", users.updateByUserId);
+  app.put("/users/:userId", isAuth, users.updateByUserId);
 
-    app.delete("/users/:userId", users.deleteByUserId);
-}
+  app.delete("/users/:userId", isAuth, users.deleteByUserId);
+};

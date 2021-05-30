@@ -1,6 +1,6 @@
-module.exports = app => {
-    const activities = require("../controllers/activity.controller");
+module.exports = (app) => {
+  const activities = require("../controllers/activity.controller");
+  const isAuth = require("../middlewares/auth.middleware");
 
-    app.post("/users/:userId/activities", activities.create);
-
-}
+  app.post("/users/:userId/activities", isAuth, activities.create);
+};
