@@ -7,10 +7,10 @@ const PRODUCT_COLUMNS = productConstants.COLUMNS;
 exports.TOTAL_PROFIT = `\
 SELECT SUM(T.product_profit) as totalProfit from ( \
 SELECT productsTable.id, (SUM(operationsTable.count) * productsTable.retail_price) - (SUM(operationsTable.count) * productsTable.delivery_price) AS product_profit \
-FROM retailerz.operations AS operationsTable \
-LEFT JOIN retailerz.products AS productsTable \
+FROM operations AS operationsTable \
+LEFT JOIN products AS productsTable \
 ON operationsTable.product_id = productsTable.id \
-LEFT JOIN retailerz.operation_types AS operationTypesTable \
+LEFT JOIN operation_types AS operationTypesTable \
 ON operationsTable.operation_type_id = operationTypesTable.id \
 WHERE operationsTable.user_id = ? \
 AND operationTypesTable.name = 'SALE' \
@@ -21,10 +21,10 @@ GROUP BY operationsTable.product_id \
 exports.TOTAL_PROFIT_FOR_STORE = `\
 SELECT SUM(T.product_profit) as totalProfit from ( \
 SELECT productsTable.id, (SUM(operationsTable.count) * productsTable.retail_price) - (SUM(operationsTable.count) * productsTable.delivery_price) AS product_profit \
-FROM retailerz.operations AS operationsTable \
-LEFT JOIN retailerz.products AS productsTable \
+FROM operations AS operationsTable \
+LEFT JOIN products AS productsTable \
 ON operationsTable.product_id = productsTable.id \
-LEFT JOIN retailerz.operation_types AS operationTypesTable \
+LEFT JOIN operation_types AS operationTypesTable \
 ON operationsTable.operation_type_id = operationTypesTable.id \
 WHERE operationsTable.user_id = ? \
 AND operationsTable.store_id = ? \
@@ -35,10 +35,10 @@ GROUP BY operationsTable.product_id \
 
 exports.TOTAL_PROFIT_FOR_PRODUCT = `\
 SELECT (SUM(operationsTable.count) * productsTable.retail_price) - (SUM(operationsTable.count) * productsTable.delivery_price) AS totalProfit \
-FROM retailerz.operations AS operationsTable \
-LEFT JOIN retailerz.products as productsTable \
+FROM operations AS operationsTable \
+LEFT JOIN products as productsTable \
 ON operationsTable.product_id = productsTable.id \
-LEFT JOIN retailerz.operation_types as operationTypesTable \
+LEFT JOIN operation_types as operationTypesTable \
 ON operationsTable.operation_type_id = operationTypesTable.id \
 WHERE operationsTable.user_id = ? \
 AND operationsTable.product_id = ? \
@@ -48,10 +48,10 @@ GROUP BY operationsTable.product_id \
 
 exports.TOTAL_PROFIT_FOR_PRODUCT_FOR_STORE = `\
 SELECT (SUM(operationsTable.count) * productsTable.retail_price) - (SUM(operationsTable.count) * productsTable.delivery_price) AS totalProfit \
-FROM retailerz.operations AS operationsTable \
-LEFT JOIN retailerz.products as productsTable \
+FROM operations AS operationsTable \
+LEFT JOIN products as productsTable \
 ON operationsTable.product_id = productsTable.id \
-LEFT JOIN retailerz.operation_types as operationTypesTable \
+LEFT JOIN operation_types as operationTypesTable \
 ON operationsTable.operation_type_id = operationTypesTable.id \
 WHERE operationsTable.user_id = ? \
 AND operationsTable.store_id = ? \
@@ -62,8 +62,8 @@ GROUP BY operationsTable.product_id \
 
 exports.MOST_SEARCHED_PRODUCTS = `\
 SELECT ${PRODUCT_COLUMNS}, COUNT(productsTable.id) AS searchCount \
-FROM retailerz.activities AS activitiesTable \
-LEFT JOIN retailerz.products as productsTable \
+FROM activities AS activitiesTable \
+LEFT JOIN products as productsTable \
 ON activitiesTable.product_id = productsTable.id \
 WHERE productsTable.user_id = ? \
 GROUP BY productsTable.id \
@@ -75,10 +75,10 @@ exports.SALES_BY_DATES = `\
 SELECT datesTable.date, COUNT(operationsTable.id) AS sales \
 FROM ( \
 SELECT CURDATE() + INTERVAL 1 DAY - INTERVAL daysTable.id DAY as 'date' \
-FROM retailerz.days as daysTable \
+FROM days as daysTable \
 WHERE daysTable.id <= 10 \
 ) as datesTable \
-LEFT JOIN retailerz.operations as operationsTable \
+LEFT JOIN operations as operationsTable \
 ON DATEDIFF(datesTable.date, operationsTable.creation_datetime) = 0 \
 AND operationsTable.operation_type_id = 1 \
 AND operationsTable.user_id = ? \
@@ -89,10 +89,10 @@ exports.SALES_BY_DATES_FOR_STORE = `\
 SELECT datesTable.date, COUNT(operationsTable.id) AS sales \
 FROM ( \
 SELECT CURDATE() + INTERVAL 1 DAY - INTERVAL daysTable.id DAY as 'date' \
-FROM retailerz.days as daysTable \
+FROM days as daysTable \
 WHERE daysTable.id <= 10 \
 ) as datesTable \
-LEFT JOIN retailerz.operations as operationsTable \
+LEFT JOIN operations as operationsTable \
 ON DATEDIFF(datesTable.date, operationsTable.creation_datetime) = 0 \
 AND operationsTable.operation_type_id = 1 \
 AND operationsTable.user_id = ? \
@@ -102,10 +102,10 @@ GROUP BY datesTable.date\
 
 exports.QUANTITY_SOLD_FOR_PRODUCT = `\
 SELECT SUM(operationsTable.count) AS sales \
-FROM retailerz.operations as operationsTable \
-LEFT JOIN retailerz.operation_types as operationTypesTable \
+FROM operations as operationsTable \
+LEFT JOIN operation_types as operationTypesTable \
 ON operationsTable.operation_type_id = operationTypesTable.id \
-LEFT JOIN retailerz.products as productsTable \
+LEFT JOIN products as productsTable \
 ON operationsTable.product_id = productsTable.id \
 WHERE operationsTable.user_id = ? \
 AND operationsTable.product_id = ? \
@@ -115,10 +115,10 @@ GROUP BY operationsTable.product_id\
 
 exports.QUANTITY_SOLD_FOR_PRODUCT_FOR_STORE = `\
 SELECT SUM(operationsTable.count) AS sales \
-FROM retailerz.operations as operationsTable \
-LEFT JOIN retailerz.operation_types as operationTypesTable \
+FROM operations as operationsTable \
+LEFT JOIN operation_types as operationTypesTable \
 ON operationsTable.operation_type_id = operationTypesTable.id \
-LEFT JOIN retailerz.products as productsTable \
+LEFT JOIN products as productsTable \
 ON operationsTable.product_id = productsTable.id \
 WHERE operationsTable.user_id = ? \
 AND operationsTable.store_id = ? \
@@ -129,12 +129,12 @@ GROUP BY operationsTable.product_id\
 
 exports.DELIVERIES_BY_PRODUCT_GROUP = `\
 SELECT SUM(operationsTable.count) as deliveries \
-FROM retailerz.operations as operationsTable \
-LEFT JOIN retailerz.operation_types as operationTypesTable \
+FROM operations as operationsTable \
+LEFT JOIN operation_types as operationTypesTable \
 ON operationsTable.operation_type_id = operationTypesTable.id \
-LEFT JOIN retailerz.products as productsTable \
+LEFT JOIN products as productsTable \
 ON operationsTable.product_id = productsTable.id \
-LEFT JOIN retailerz.groups AS groupsTable \
+LEFT JOIN groups AS groupsTable \
 ON productsTable.group_id = groupsTable.id \
 WHERE operationsTable.user_id = ? \
 AND groupsTable.id = ?

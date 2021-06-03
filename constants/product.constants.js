@@ -22,35 +22,35 @@ productsTable.user_id AS productUserId\
 `;
 
 exports.CREATE = `\
-INSERT INTO retailerz.products \
+INSERT INTO products \
 (user_id, group_id, barcode, measure_unit_id, tax_group_id, retail_price, delivery_price, name, description) \
 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)\
 `;
 
 exports.FIND_BY_PRODUCT_ID = `\
 SELECT ${this.COLUMNS}, ${USER_COLUMNS}, ${GROUP_COLUMNS}, ${MEASURE_UNIT_COLUMNS}, ${TAX_GROUP_COLUMNS} \
-FROM retailerz.products AS productsTable \
-LEFT JOIN retailerz.users AS usersTable \
+FROM products AS productsTable \
+LEFT JOIN users AS usersTable \
 ON productsTable.user_id = usersTable.id \
-LEFT JOIN retailerz.groups AS groupsTable \
+LEFT JOIN groups AS groupsTable \
 ON productsTable.group_id = groupsTable.id \
-LEFT JOIN retailerz.measure_units AS measureUnitsTable \
+LEFT JOIN measure_units AS measureUnitsTable \
 ON productsTable.measure_unit_id = measureUnitsTable.id \
-LEFT JOIN retailerz.tax_groups AS taxGroupsTable \
+LEFT JOIN tax_groups AS taxGroupsTable \
 ON productsTable.tax_group_id = taxGroupsTable.id \
 WHERE productsTable.id = ?\
 `;
 
 exports.SEARCH = (search) => `\
 SELECT ${this.COLUMNS}, ${USER_COLUMNS}, ${GROUP_COLUMNS}, ${MEASURE_UNIT_COLUMNS}, ${TAX_GROUP_COLUMNS} \
-FROM retailerz.products AS productsTable \
-LEFT JOIN retailerz.users AS usersTable \
+FROM products AS productsTable \
+LEFT JOIN users AS usersTable \
 ON productsTable.user_id = usersTable.id \
-LEFT JOIN retailerz.groups AS groupsTable \
+LEFT JOIN groups AS groupsTable \
 ON productsTable.group_id = groupsTable.id \
-LEFT JOIN retailerz.measure_units AS measureUnitsTable \
+LEFT JOIN measure_units AS measureUnitsTable \
 ON productsTable.measure_unit_id = measureUnitsTable.id \
-LEFT JOIN retailerz.tax_groups AS taxGroupsTable \
+LEFT JOIN tax_groups AS taxGroupsTable \
 ON productsTable.tax_group_id = taxGroupsTable.id \
 WHERE productsTable.name LIKE "%${search}%" \
 OR productsTable.barcode LIKE "%${search}%" \
@@ -61,14 +61,14 @@ OR groupsTable.name LIKE "%${search}%"\
 
 exports.GET_ALL_BY_USER_ID = `\
 SELECT ${this.COLUMNS}, ${USER_COLUMNS}, ${GROUP_COLUMNS}, ${MEASURE_UNIT_COLUMNS}, ${TAX_GROUP_COLUMNS} \
-FROM retailerz.products AS productsTable \
-LEFT JOIN retailerz.users AS usersTable \
+FROM products AS productsTable \
+LEFT JOIN users AS usersTable \
 ON productsTable.user_id = usersTable.id \
-LEFT JOIN retailerz.groups AS groupsTable \
+LEFT JOIN groups AS groupsTable \
 ON productsTable.group_id = groupsTable.id \
-LEFT JOIN retailerz.measure_units AS measureUnitsTable \
+LEFT JOIN measure_units AS measureUnitsTable \
 ON productsTable.measure_unit_id = measureUnitsTable.id \
-LEFT JOIN retailerz.tax_groups AS taxGroupsTable \
+LEFT JOIN tax_groups AS taxGroupsTable \
 ON productsTable.tax_group_id = taxGroupsTable.id \
 WHERE productsTable.user_id = ?\
 `;
@@ -115,26 +115,26 @@ ON a.user_id = T0.user_id \
 WHERE T0.matches >= 2 \
 GROUP BY a.product_id\
 ) AS T \
-LEFT JOIN retailerz.products AS productsTable
+LEFT JOIN products AS productsTable
 ON productsTable.id = T.product_id
-LEFT JOIN retailerz.users AS usersTable \
+LEFT JOIN users AS usersTable \
 ON productsTable.user_id = usersTable.id \
-LEFT JOIN retailerz.groups AS groupsTable \
+LEFT JOIN groups AS groupsTable \
 ON productsTable.group_id = groupsTable.id \
-LEFT JOIN retailerz.measure_units AS measureUnitsTable \
+LEFT JOIN measure_units AS measureUnitsTable \
 ON productsTable.measure_unit_id = measureUnitsTable.id \
-LEFT JOIN retailerz.tax_groups AS taxGroupsTable \
+LEFT JOIN tax_groups AS taxGroupsTable \
 ON productsTable.tax_group_id = taxGroupsTable.id\
 `;
 
 exports.UPDATE_BY_PRODUCT_ID = `\
-UPDATE retailerz.products SET \
+UPDATE products SET \
 group_id = ?, barcode = ?, measure_unit_id = ?, tax_group_id = ?, retail_price = ?, \
 delivery_price = ?, name = ?, description = ? \
 WHERE id = ?\
 `;
 
 exports.DELETE_BY_PRODUCT_ID = `\
-DELETE FROM retailerz.products \
+DELETE FROM products \
 WHERE id = ?\
 `;
