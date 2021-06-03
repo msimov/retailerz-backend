@@ -3,4 +3,6 @@ module.exports = (app) => {
   const isAuth = require("../middlewares/auth.middleware");
 
   app.post("/users/:userId/activities", isAuth, activities.create);
+
+  app.get("/users/:userId/activities", isAuth, activities.getAllByUserId);
 };

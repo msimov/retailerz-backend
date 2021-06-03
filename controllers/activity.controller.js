@@ -16,3 +16,15 @@ exports.create = (req, res) => {
     }
   });
 };
+
+exports.getAllByUserId = (req, res) => {
+  Activity.getAllByUserId(req.params.userId, (err, data) => {
+    if (err) {
+      res.status(500).send({
+        message: err.message || "Error.",
+      });
+    } else {
+      res.send(data);
+    }
+  });
+};

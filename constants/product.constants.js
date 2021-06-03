@@ -72,6 +72,7 @@ LEFT JOIN tax_groups AS taxGroupsTable \
 ON productsTable.tax_group_id = taxGroupsTable.id \
 WHERE productsTable.user_id = ?\
 `;
+
 exports.GET_ALL_RECOMMENDED_BY_USER_ID = (userId) => `\
 SELECT ${this.COLUMNS}, ${USER_COLUMNS}, ${GROUP_COLUMNS}, ${MEASURE_UNIT_COLUMNS}, ${TAX_GROUP_COLUMNS} FROM \
 (\
