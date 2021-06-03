@@ -16,7 +16,7 @@ VALUES (?, ?, ?)\
 `;
 
 exports.GET_ALL_BY_USER_ID = `\
-SELECT ${this.COLUMNS}, ${PRODUCT_COLUMNS}, ${ACTIVITY_TYPE_COLUMNS}, \
+SELECT ${this.COLUMNS}, ${PRODUCT_COLUMNS}, ${ACTIVITY_TYPE_COLUMNS} \
 FROM activities AS activitiesTable \
 LEFT JOIN products AS productsTable \
 ON activitiesTable.product_id = productsTable.id \
