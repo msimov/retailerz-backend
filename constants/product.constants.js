@@ -113,7 +113,7 @@ GROUP BY T1.user_id, T1.current_user_id\
 ) AS T0 \
 INNER JOIN activities a \
 ON a.user_id = T0.user_id \
-WHERE T0.matches >= 2 \
+WHERE T0.matches >= 3 \
 GROUP BY a.product_id\
 ) AS T \
 LEFT JOIN products AS productsTable
