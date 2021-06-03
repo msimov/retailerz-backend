@@ -22,5 +22,5 @@ LEFT JOIN products AS productsTable \
 ON activitiesTable.product_id = productsTable.id \
 LEFT JOIN activity_types AS activityTypesTable \
 ON activitiesTable.activity_type_id = activityTypesTable.id \
-WHERE productsTable.user_id = ?\
+WHERE activitiesTable.user_id = ?\
 `;
