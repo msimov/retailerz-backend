@@ -24,3 +24,8 @@ LEFT JOIN activity_types AS activityTypesTable \
 ON activitiesTable.activity_type_id = activityTypesTable.id \
 WHERE activitiesTable.user_id = ?\
 `;
+
+exports.DELETE_BY_ACTIVITY_ID = `\
+DELETE FROM activities \
+WHERE id = ?\
+`;

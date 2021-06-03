@@ -5,4 +5,6 @@ module.exports = (app) => {
   app.post("/users/:userId/activities", isAuth, activities.create);
 
   app.get("/users/:userId/activities", isAuth, activities.getAllByUserId);
+
+  app.delete("/activities/:activityId", isAuth, activities.deleteByActivityId);
 };

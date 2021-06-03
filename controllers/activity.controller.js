@@ -28,3 +28,21 @@ exports.getAllByUserId = (req, res) => {
     }
   });
 };
+
+exports.deleteByActivityId = (req, res) => {
+  Activity.deleteByActivityId(req.params.activityId, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: "Error.",
+        });
+      } else {
+        res.status(500).send({
+          message: err.message || "Error.",
+        });
+      }
+    } else {
+      res.send(data);
+    }
+  });
+};

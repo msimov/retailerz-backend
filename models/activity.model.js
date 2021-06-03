@@ -1,6 +1,7 @@
 const {
   CREATE,
   GET_ALL_BY_USER_ID,
+  DELETE_BY_ACTIVITY_ID,
 } = require("../constants/activity.constants");
 const sql = require("./db");
 
@@ -36,6 +37,20 @@ Activity.getAllByUserId = (activityUserId, result) => {
       return;
     }
     result(null, res);
+  });
+};
+
+Activity.deleteByActivityId = (activityId, result) => {
+  sql.query(DELETE_BY_ACTIVITY_ID, activityId, (err, res) => {
+    if (err) {
+      result(err, null);
+      return;
+    }
+    if (res.affectedRows == 0) {
+      result({ kind: "not_found" }, null);
+      return;
+    }
+    result(null, activityId);
   });
 };
 
